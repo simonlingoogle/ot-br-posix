@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2017, The OpenThread Authors.
+ *    Copyright (c) 2020, The OpenThread Authors.
  *    All rights reserved.
  *
  *    Redistribution and use in source and binary forms, with or without
@@ -28,53 +28,68 @@
 
 /**
  * @file
- *   This file includes implementation for Thread border router agent instance.
+ *   The file implements the Thread Backbone helper utilities.
  */
 
-#include "agent/agent_instance.hpp"
-
-#include <assert.h>
-
-#include "common/code_utils.hpp"
-#include "common/logging.hpp"
+#include "backbone_helper.hpp"
 
 namespace otbr {
 
-AgentInstance::AgentInstance(Ncp::Controller *aNcp)
-    : mNcp(aNcp)
-    , mBorderAgent(aNcp)
+namespace Backbone {
+
+int BackboneHelper::SystemCommand(const char *aFormat, ...)
 {
+    char    cmd[kSystemCommandMaxLength];
+    int     exitCode;
+    va_list args;
+
+    va_start(args, aFormat);
+    vsnprintf(cmd, sizeof(cmd), aFormat, args);
+    va_end(args);
+
+    exitCode = system(cmd);
+
+    Log(OTBR_LOG_INFO, "Command", "$ %s => %d", cmd, exitCode);
+    return exitCode;
 }
 
-otbrError AgentInstance::Init(const std::string &aThreadIfName, const std::string &aBackboneIfName)
+void BackboneHelper::Log(int aLevel, const char *aSubRegion, const char *aFormat, ...)
 {
-    otbrError error = OTBR_ERROR_NONE;
+    va_list ap;
 
-    SuccessOrExit(error = mNcp->Init());
-
-    mBorderAgent.Init(aThreadIfName, aBackboneIfName);
-
-exit:
-    otbrLogResult("Initialize OpenThread Border Router Agent", error);
-    return error;
+    va_start(ap, aFormat);
+    Logv(aLevel, aSubRegion, aFormat, ap);
+    va_end(ap);
 }
 
-void AgentInstance::UpdateFdSet(otSysMainloopContext &aMainloop)
+void BackboneHelper::Logv(int aLevel, const char *aSubRegion, const char *aFormat, va_list aArgs)
 {
-    mNcp->UpdateFdSet(aMainloop);
-    mBorderAgent.UpdateFdSet(aMainloop.mReadFdSet, aMainloop.mWriteFdSet, aMainloop.mErrorFdSet, aMainloop.mMaxFd,
-                             aMainloop.mTimeout);
+    char log[kMaxLogLine];
+
+    snprintf(log, sizeof(log), "[Backbone.%s] %s", aSubRegion, aFormat);
+    otbrLogv(aLevel, log, aArgs);
 }
 
-void AgentInstance::Process(const otSysMainloopContext &aMainloop)
+const char *BackboneHelper::BackboneRouterStateToString(otBackboneRouterState aState)
 {
-    mNcp->Process(aMainloop);
-    mBorderAgent.Process(aMainloop.mReadFdSet, aMainloop.mWriteFdSet, aMainloop.mErrorFdSet);
+    const char *ret = "unknown";
+
+    switch (aState)
+    {
+    case OT_BACKBONE_ROUTER_STATE_DISABLED:
+        ret = "Disabled";
+        break;
+    case OT_BACKBONE_ROUTER_STATE_SECONDARY:
+        ret = "Secondary";
+        break;
+    case OT_BACKBONE_ROUTER_STATE_PRIMARY:
+        ret = "Primary";
+        break;
+    }
+
+    return ret;
 }
 
-AgentInstance::~AgentInstance(void)
-{
-    Ncp::Controller::Destroy(mNcp);
-}
+} // namespace Backbone
 
 } // namespace otbr

@@ -46,6 +46,7 @@
 
 #include "agent/border_agent.hpp"
 #include "agent/ncp.hpp"
+#include "agent/ncp_openthread.hpp"
 #include "agent/uris.hpp"
 #include "common/code_utils.hpp"
 #include "common/logging.hpp"
@@ -87,11 +88,14 @@ BorderAgent::BorderAgent(Ncp::Controller *aNcp)
     : mPublisher(nullptr)
 #endif
     , mNcp(aNcp)
+#if OTBR_ENABLE_BACKBONE
+    , mBackboneAgent(*reinterpret_cast<Ncp::ControllerOpenThread *>(aNcp))
+#endif
     , mThreadStarted(false)
 {
 }
 
-void BorderAgent::Init(void)
+void BorderAgent::Init(const std::string &aThreadIfName, const std::string &aBackboneIfName)
 {
     memset(mNetworkName, 0, sizeof(mNetworkName));
     memset(mExtPanId, 0, sizeof(mExtPanId));
@@ -105,6 +109,16 @@ void BorderAgent::Init(void)
 #endif
     mNcp->On(Ncp::kEventThreadState, HandleThreadState, this);
     mNcp->On(Ncp::kEventPSKc, HandlePSKc, this);
+
+#if OTBR_ENABLE_BACKBONE
+    mNcp->On(Ncp::kEventBackboneRouterState, HandleBackboneRouterState, this);
+    mNcp->On(Ncp::kEventBackboneRouterMulticastListenerEvent, HandleBackboneRouterMulticastListenerEvent, this);
+
+    mBackboneAgent.Init(aThreadIfName, aBackboneIfName);
+#else
+    OT_UNUSED_VARIABLE(aThreadIfName);
+    OT_UNUSED_VARIABLE(aBackboneIfName);
+#endif
 
     otbrLogResult("Check if Thread is up", mNcp->RequestEvent(Ncp::kEventThreadState));
     otbrLogResult("Check if PSKc is initialized", mNcp->RequestEvent(Ncp::kEventPSKc));
@@ -380,5 +394,42 @@ void BorderAgent::HandleThreadVersion(void *aContext, int aEvent, va_list aArgum
     uint16_t threadVersion = static_cast<uint16_t>(va_arg(aArguments, int));
     static_cast<BorderAgent *>(aContext)->SetThreadVersion(threadVersion);
 }
+
+#if OTBR_ENABLE_BACKBONE
+void BorderAgent::HandleBackboneRouterState(void *aContext, int aEvent, va_list aArguments)
+{
+    OT_UNUSED_VARIABLE(aEvent);
+    OT_UNUSED_VARIABLE(aArguments);
+    assert(aEvent == Ncp::kEventBackboneRouterState);
+
+    static_cast<BorderAgent *>(aContext)->HandleBackboneRouterState();
+}
+
+void BorderAgent::HandleBackboneRouterState(void)
+{
+    mBackboneAgent.HandleBackboneRouterState();
+}
+
+void BorderAgent::HandleBackboneRouterMulticastListenerEvent(void *aContext, int aEvent, va_list aArguments)
+{
+    OT_UNUSED_VARIABLE(aEvent);
+
+    otBackboneRouterMulticastListenerEvent event;
+    const otIp6Address *                   address;
+
+    assert(aEvent == Ncp::kEventBackboneRouterMulticastListenerEvent);
+
+    event   = static_cast<otBackboneRouterMulticastListenerEvent>(va_arg(aArguments, int));
+    address = va_arg(aArguments, const otIp6Address *);
+    static_cast<BorderAgent *>(aContext)->HandleBackboneRouterMulticastListenerEvent(event, *address);
+}
+
+void BorderAgent::HandleBackboneRouterMulticastListenerEvent(otBackboneRouterMulticastListenerEvent aEvent,
+                                                             const otIp6Address &                   aAddress)
+{
+    mBackboneAgent.HandleBackboneRouterMulticastListenerEvent(aEvent, aAddress);
+}
+
+#endif
 
 } // namespace otbr

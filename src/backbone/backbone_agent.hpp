@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2017, The OpenThread Authors.
+ *    Copyright (c) 2020, The OpenThread Authors.
  *    All rights reserved.
  *
  *    Redistribution and use in source and binary forms, with or without
@@ -28,82 +28,93 @@
 
 /**
  * @file
- *   This file includes definition for Thread border router agent instance.
+ *   This file includes definition for Thread Backbone agent.
  */
 
-#ifndef OTBR_AGENT_AGENT_INSTANCE_HPP_
-#define OTBR_AGENT_AGENT_INSTANCE_HPP_
+#ifndef BACKBONE_AGENT_HPP_
+#define BACKBONE_AGENT_HPP_
 
-#include "openthread-br/config.h"
+#include <openthread/backbone_router_ftd.h>
 
-#include <stdarg.h>
-#include <stdint.h>
-#include <sys/select.h>
-#include <sys/types.h>
-
-#include "agent/border_agent.hpp"
-#include "agent/ncp.hpp"
+#include "agent/ncp_openthread.hpp"
+#include "backbone/smcroute_manager.hpp"
 
 namespace otbr {
 
+namespace Backbone {
+
 /**
- * This class implements an instance to host services used by border router.
+ * @addtogroup border-router-backbone
+ *
+ * @brief
+ *   This module includes definition for Thread Backbone agent.
+ *
+ * @{
+ */
+
+#if OTBR_ENABLE_BACKBONE
+
+/**
+ * This class implements Thread Backbone agent functionality.
  *
  */
-class AgentInstance
+class BackboneAgent
 {
 public:
     /**
-     * The constructor to initialize the Thread border router agent instance.
+     * This constructor intiializes the `BackboneAgent` instance.
      *
-     * @param[in]   aNcp  A pointer to the NCP controller.
+     * @param[in] aThread  The Thread instance.
      *
      */
-    AgentInstance(Ncp::Controller *aNcp);
-
-    ~AgentInstance(void);
+    BackboneAgent(otbr::Ncp::ControllerOpenThread &aThread);
 
     /**
-     * This method initialize the agent.
+     * This method initializes the Backbone agent.
      *
      * @param[in] aThreadIfName    The Thread network interface name.
      * @param[in] aBackboneIfName  The Backbone network interface name.
      *
-     * @retval  OTBR_ERROR_NONE     Agent initialized successfully.
-     * @retval  OTBR_ERROR_ERRNO    Failed due to error indicated in errno.
+     * @returns The initialization error.
      *
      */
-    otbrError Init(const std::string &aThreadIfName, const std::string &aBackboneIfName);
+    void Init(const std::string &aThreadIfName, const std::string &aBackboneIfName);
 
     /**
-     * This method updates the file descriptor sets and timeout for mainloop.
-     *
-     * @param[inout]    aMainloop   A reference to OpenThread mainloop context.
+     * This method notifies Backbone Router State.
      *
      */
-    void UpdateFdSet(otSysMainloopContext &aMainloop);
+    void HandleBackboneRouterState(void);
 
     /**
-     * This method performs processing.
+     * This method notifies arrived Backbone Router Multicast Listener event.
      *
-     * @param[in]       aMainloop   A reference to OpenThread mainloop context.
-     *
-     */
-    void Process(const otSysMainloopContext &aMainloop);
-
-    /**
-     * This method return mNcp pointer.
-     *
-     * @retval  the pointer of mNcp.
+     * @param[in] aEvent    The Multicast Listener event type.
+     * @param[in] aAddress  The Multicast Listener address.
      *
      */
-    Ncp::Controller &GetNcp(void) { return *mNcp; }
+    void HandleBackboneRouterMulticastListenerEvent(otBackboneRouterMulticastListenerEvent aEvent,
+                                                    const otIp6Address &                   aAddress);
 
 private:
-    Ncp::Controller *mNcp;
-    BorderAgent      mBorderAgent;
+    void Log(int aLevel, const char *aFormat, ...);
+    void OnBecomePrimary(void);
+    void OnResignPrimary(void);
+    bool IsPrimary(void) { return mBackboneRouterState == OT_BACKBONE_ROUTER_STATE_PRIMARY; }
+
+    otbr::Ncp::ControllerOpenThread &mThread;
+    otBackboneRouterState            mBackboneRouterState;
+    SMCRouteManager                  mSMCRouteManager;
 };
+
+#endif // OTBR_ENABLE_BACKBONE
+
+/**
+ * @}
+ */
+
+} // namespace Backbone
 
 } // namespace otbr
 
-#endif // OTBR_AGENT_AGENT_INSTANCE_HPP_
+#endif // BACKBONE_AGENT_HPP_

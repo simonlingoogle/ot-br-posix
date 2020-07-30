@@ -34,9 +34,11 @@
 #ifndef OTBR_AGENT_BORDER_AGENT_HPP_
 #define OTBR_AGENT_BORDER_AGENT_HPP_
 
+#include <memory>
 #include <stdint.h>
 
 #include "agent/ncp.hpp"
+#include "backbone/backbone_agent.hpp"
 #include "mdns/mdns.hpp"
 
 namespace otbr {
@@ -70,8 +72,11 @@ public:
     /**
      * This method initialize border agent service.
      *
+     * @param[in] aThreadIfName    The Thread network interface name.
+     * @param[in] aBackboneIfName  The Backbone network interface name.
+     *
      */
-    void Init(void);
+    void Init(const std::string &aThreadIfName, const std::string &aBackboneIfName);
 
     /**
      * This method updates the fd_set and timeout for mainloop.
@@ -131,9 +136,20 @@ private:
     static void HandleNetworkName(void *aContext, int aEvent, va_list aArguments);
     static void HandleExtPanId(void *aContext, int aEvent, va_list aArguments);
     static void HandleThreadVersion(void *aContext, int aEvent, va_list aArguments);
+#if OTBR_ENABLE_BACKBONE
+    static void HandleBackboneRouterState(void *aContext, int aEvent, va_list aArguments);
+    void        HandleBackboneRouterState(void);
+    static void HandleBackboneRouterMulticastListenerEvent(void *aContext, int aEvent, va_list aArguments);
+    void        HandleBackboneRouterMulticastListenerEvent(otBackboneRouterMulticastListenerEvent aEvent,
+                                                           const otIp6Address &                   aAddress);
+
+#endif
 
     Mdns::Publisher *mPublisher;
     Ncp::Controller *mNcp;
+#if OTBR_ENABLE_BACKBONE
+    Backbone::BackboneAgent mBackboneAgent;
+#endif
 
     uint8_t  mExtPanId[kSizeExtPanId];
     bool     mExtPanIdInitialized;

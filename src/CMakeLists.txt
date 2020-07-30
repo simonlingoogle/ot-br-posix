@@ -46,3 +46,7 @@ endif()
 if(OTBR_WEB)
     add_subdirectory(web)
 endif()
+
+if (OTBR_BACKBONE)
+    add_subdirectory(backbone)
+endif()

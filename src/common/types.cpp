@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2017, The OpenThread Authors.
+ *    Copyright (c) 2020, The OpenThread Authors.
  *    All rights reserved.
  *
  *    Redistribution and use in source and binary forms, with or without
@@ -26,55 +26,39 @@
  *    POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * @file
- *   This file includes implementation for Thread border router agent instance.
- */
+#include "common/types.hpp"
 
-#include "agent/agent_instance.hpp"
-
-#include <assert.h>
-
-#include "common/code_utils.hpp"
-#include "common/logging.hpp"
+#include "common/byteswap.hpp"
 
 namespace otbr {
 
-AgentInstance::AgentInstance(Ncp::Controller *aNcp)
-    : mNcp(aNcp)
-    , mBorderAgent(aNcp)
+Ip6Address::Ip6Address(const otIp6Address aAddress)
 {
+    static_assert(sizeof(*this) == sizeof(aAddress), "wrong Ip6Address size");
+
+    m32[0] = aAddress.mFields.m32[0];
+    m32[1] = aAddress.mFields.m32[1];
+    m32[2] = aAddress.mFields.m32[2];
+    m32[3] = aAddress.mFields.m32[3];
 }
 
-otbrError AgentInstance::Init(const std::string &aThreadIfName, const std::string &aBackboneIfName)
+std::string Ip6Address::ToLongString() const
 {
-    otbrError error = OTBR_ERROR_NONE;
+    char   buf[40]; // the extended string format must be 39 bytes long.
+    size_t pos = 0;
 
-    SuccessOrExit(error = mNcp->Init());
+    for (int i = 0; i < 8; i++)
+    {
+        sprintf(buf + pos, "%04x", htobe16(m16[i]));
+        pos += 4;
 
-    mBorderAgent.Init(aThreadIfName, aBackboneIfName);
+        if (i != 7)
+        {
+            buf[pos++] = ':';
+        }
+    }
 
-exit:
-    otbrLogResult("Initialize OpenThread Border Router Agent", error);
-    return error;
-}
-
-void AgentInstance::UpdateFdSet(otSysMainloopContext &aMainloop)
-{
-    mNcp->UpdateFdSet(aMainloop);
-    mBorderAgent.UpdateFdSet(aMainloop.mReadFdSet, aMainloop.mWriteFdSet, aMainloop.mErrorFdSet, aMainloop.mMaxFd,
-                             aMainloop.mTimeout);
-}
-
-void AgentInstance::Process(const otSysMainloopContext &aMainloop)
-{
-    mNcp->Process(aMainloop);
-    mBorderAgent.Process(aMainloop.mReadFdSet, aMainloop.mWriteFdSet, aMainloop.mErrorFdSet);
-}
-
-AgentInstance::~AgentInstance(void)
-{
-    Ncp::Controller::Destroy(mNcp);
+    return std::string(buf);
 }
 
 } // namespace otbr

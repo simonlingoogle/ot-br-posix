@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <openthread/backbone_router_ftd.h>
 #include <openthread/cli.h>
 #include <openthread/dataset.h>
 #include <openthread/logging.h>
@@ -119,6 +120,11 @@ otbrError ControllerOpenThread::Init(void)
         VerifyOrExit(result == OT_ERROR_NONE, error = OTBR_ERROR_OPENTHREAD);
     }
 
+#if OTBR_ENABLE_BACKBONE
+    otBackboneRouterSetMulticastListenerCallback(
+        mInstance, &ControllerOpenThread::HandleBackboneRouterMulticastListenerEvent, this);
+#endif
+
     mThreadHelper = std::unique_ptr<otbr::agent::ThreadHelper>(new otbr::agent::ThreadHelper(mInstance, this));
 
 exit:
@@ -162,6 +168,13 @@ void ControllerOpenThread::HandleStateChanged(otChangedFlags aFlags)
 
         EventEmitter::Emit(kEventThreadState, attached);
     }
+
+#if OTBR_ENABLE_BACKBONE
+    if (aFlags & OT_CHANGED_THREAD_BACKBONE_ROUTER_STATE)
+    {
+        EventEmitter::Emit(kEventBackboneRouterState);
+    }
+#endif
 
     mThreadHelper->StateChangedCallback(aFlags);
 }
@@ -246,13 +259,11 @@ otbrError ControllerOpenThread::RequestEvent(int aEvent)
 
     switch (aEvent)
     {
-    case kEventExtPanId:
-    {
+    case kEventExtPanId: {
         EventEmitter::Emit(kEventExtPanId, otThreadGetExtendedPanId(mInstance));
         break;
     }
-    case kEventThreadState:
-    {
+    case kEventThreadState: {
         bool attached = false;
 
         switch (otThreadGetDeviceRole(mInstance))
@@ -269,18 +280,15 @@ otbrError ControllerOpenThread::RequestEvent(int aEvent)
         EventEmitter::Emit(kEventThreadState, attached);
         break;
     }
-    case kEventNetworkName:
-    {
+    case kEventNetworkName: {
         EventEmitter::Emit(kEventNetworkName, otThreadGetNetworkName(mInstance));
         break;
     }
-    case kEventPSKc:
-    {
+    case kEventPSKc: {
         EventEmitter::Emit(kEventPSKc, otThreadGetPskc(mInstance));
         break;
     }
-    case kEventThreadVersion:
-    {
+    case kEventThreadVersion: {
         EventEmitter::Emit(kEventThreadVersion, otThreadGetVersion());
         break;
     }
@@ -302,6 +310,21 @@ void ControllerOpenThread::RegisterResetHandler(std::function<void(void)> aHandl
 {
     mResetHandlers.emplace_back(std::move(aHandler));
 }
+
+#if OTBR_ENABLE_BACKBONE
+void ControllerOpenThread::HandleBackboneRouterMulticastListenerEvent(void *                                 aContext,
+                                                                      otBackboneRouterMulticastListenerEvent aEvent,
+                                                                      const otIp6Address *                   aAddress)
+{
+    static_cast<ControllerOpenThread *>(aContext)->HandleBackboneRouterMulticastListenerEvent(aEvent, aAddress);
+}
+
+void ControllerOpenThread::HandleBackboneRouterMulticastListenerEvent(otBackboneRouterMulticastListenerEvent aEvent,
+                                                                      const otIp6Address *                   aAddress)
+{
+    EventEmitter::Emit(kEventBackboneRouterMulticastListenerEvent, aEvent, aAddress);
+}
+#endif
 
 Controller *Controller::Create(const char *aInterfaceName, const char *aRadioUrl)
 {
