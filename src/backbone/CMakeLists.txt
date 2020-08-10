@@ -30,6 +30,7 @@ add_library(otbr-backbone
     backbone_agent.cpp
     backbone_helper.cpp
     smcroute_manager.cpp
+    btmf_manager.cpp
 )
 
 target_compile_definitions(otbr-backbone PUBLIC
