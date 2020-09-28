@@ -115,6 +115,8 @@ otbrError ControllerOpenThread::Init(void)
     otLegacyInit();
 #endif
 
+    otIp6SetReceiveFilterEnabled(mInstance, true);
+
     {
         otError result = otSetStateChangedCallback(mInstance, &ControllerOpenThread::HandleStateChanged, this);
 
