@@ -43,6 +43,8 @@
 
 #include <openthread/ip6.h>
 
+#include "common/code_utils.hpp"
+
 #ifndef IN6ADDR_ANY
 /**
  * Any IPv6 address literal.
@@ -63,12 +65,16 @@ enum otbrError
 {
     OTBR_ERROR_NONE = 0, ///< No error.
 
-    OTBR_ERROR_ERRNO      = -1, ///< Error defined by errno.
-    OTBR_ERROR_DBUS       = -2, ///< DBus error.
-    OTBR_ERROR_MDNS       = -3, ///< MDNS error.
-    OTBR_ERROR_OPENTHREAD = -4, ///< OpenThread error.
-    OTBR_ERROR_REST       = -5, ///< Rest Server error.
-    OTBR_ERROR_SMCROUTE   = -6, ///< SMCRoute error.
+    OTBR_ERROR_ERRNO           = -1,  ///< Error defined by errno.
+    OTBR_ERROR_DBUS            = -2,  ///< DBus error.
+    OTBR_ERROR_MDNS            = -3,  ///< MDNS error.
+    OTBR_ERROR_OPENTHREAD      = -4,  ///< OpenThread error.
+    OTBR_ERROR_REST            = -5,  ///< Rest Server error.
+    OTBR_ERROR_SMCROUTE        = -6,  ///< SMCRoute error.
+    OTBR_ERROR_NOT_FOUND       = -7,  ///< Not found.
+    OTBR_ERROR_PARSE           = -8,  ///< Parse error.
+    OTBR_ERROR_NOT_IMPLEMENTED = -9,  ///< Not implemented error.
+    OTBR_ERROR_INVALID_ARGS    = -10, ///< Invalid arguments error.
 };
 
 namespace otbr {
@@ -81,10 +87,14 @@ enum
     kSizeEui64       = 8,  ///< Size of Eui64.
 };
 
+static constexpr char kSolicitedMulticastAddressPrefix[]   = "ff02::01:ff00:0";
+static constexpr char kLinkLocalAllNodesMulticastAddress[] = "ff02::01";
+
 /**
  * This class implements the Ipv6 address functionality.
  *
  */
+OTBR_TOOL_PACKED_BEGIN
 class Ip6Address
 {
 public:
@@ -132,12 +142,30 @@ public:
     bool operator<(const Ip6Address &aOther) const { return memcmp(this, &aOther, sizeof(Ip6Address)) < 0; }
 
     /**
+     * This method overloads `==` operator and compares if the Ip6 address is equal to the other address.
+     *
+     * @param[in] aOther  The other Ip6 address to compare with.
+     *
+     * @returns  Whether the Ip6 address is equal to the other address.
+     *
+     */
+    bool operator==(const Ip6Address &aOther) const { return m64[0] == aOther.m64[0] && m64[1] == aOther.m64[1]; }
+
+    /**
      * Retrieve the 16-bit Thread locator.
      *
      * @returns RLOC16 or ALOC16.
      *
      */
     uint16_t ToLocator(void) const { return static_cast<uint16_t>(m8[14] << 8 | m8[15]); }
+
+    /**
+     * This method returns the solicited node multicast address.
+     *
+     * @returns The solicited node multicast address.
+     *
+     */
+    Ip6Address ToSolicitedNodeMulticastAddress() const;
 
     /**
      * This method returns the string representation for the Ip6 address.
@@ -147,6 +175,50 @@ public:
      */
     std::string ToString() const;
 
+    /**
+     * This method returns if the Ip6 address is a multicast address.
+     *
+     * @returns  Whether the Ip6 address is a multicast address.
+     *
+     */
+    bool IsMulticast(void) const { return m8[0] == 0xff; }
+
+    /**
+     * This function returns the wellknown Link Local All Nodes Multicast Address (ff02::1).
+     *
+     * @returns The Link Local All Nodes Multicast Address.
+     *
+     */
+    static const Ip6Address &GetLinkLocalAllNodesMulticastAddress(void)
+    {
+        static Ip6Address sLinkLocalAllNodesMulticastAddress = FromString(kLinkLocalAllNodesMulticastAddress);
+
+        return sLinkLocalAllNodesMulticastAddress;
+    }
+
+    /**
+     * This function returns the wellknown Solicited Node Multicast Address Prefix (ff02::01:ff00:0).
+     *
+     * @returns The Solicited Node Multicast Address Prefix.
+     *
+     */
+    static const Ip6Address &GetSolicitedMulticastAddressPrefix(void)
+    {
+        static Ip6Address sSolicitedMulticastAddressPrefix = FromString(kSolicitedMulticastAddressPrefix);
+
+        return sSolicitedMulticastAddressPrefix;
+    }
+
+    /**
+     * This function converts Ip6 addresses from text to `Ip6Address`.
+     *
+     * @param[in] aStr  The Ip6 address text.
+     *
+     * @returns  The Ip6 address or unspecified Ip6 address if conversion failed.
+     *
+     */
+    static otbrError FromString(const char *aStr, Ip6Address &aAddr);
+
     union
     {
         uint8_t  m8[16];
@@ -154,7 +226,73 @@ public:
         uint32_t m32[4];
         uint64_t m64[2];
     };
-};
+
+    void CopyTo(struct sockaddr_in6 &aSockAddr) const;
+    void CopyTo(struct in6_addr &aIn6Addr) const;
+
+private:
+    static Ip6Address FromString(const char *aStr);
+
+} OTBR_TOOL_PACKED_END;
+
+/**
+ * This class implements the Ipv6 prefix functionality.
+ *
+ */
+OTBR_TOOL_PACKED_BEGIN
+class Ip6Prefix : public otIp6Prefix
+{
+public:
+    /**
+     * Default constructor.
+     *
+     */
+    Ip6Prefix(void) { Clear(); }
+
+    /**
+     * Constructor with an Thread Ip6 prefix.
+     *
+     * @param[in]   aPrefix    The Thread Ip6 prefix.
+     *
+     */
+    Ip6Prefix(const otIp6Prefix &aPrefix) { memcpy(this, &aPrefix, sizeof(aPrefix)); }
+
+    /**
+     * This method returns the string representation for the Ip6 address.
+     *
+     * @returns The string representation of the Ip6 address.
+     *
+     */
+    std::string ToString() const;
+
+    void Clear() { memset(this, 0, sizeof(*this)); }
+
+    bool IsValid(void) const { return mLength > 0 && mLength <= 128; }
+} OTBR_TOOL_PACKED_END;
+
+OTBR_TOOL_PACKED_BEGIN
+class MacAddress
+{
+public:
+    std::string ToString(void);
+
+    /**
+     * Default constructor.
+     *
+     */
+    MacAddress(void)
+    {
+        m16[0] = 0;
+        m16[1] = 0;
+        m16[2] = 0;
+    }
+
+    union
+    {
+        uint8_t  m8[6];
+        uint16_t m16[3];
+    };
+} OTBR_TOOL_PACKED_END;
 
 } // namespace otbr
 

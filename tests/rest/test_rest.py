@@ -85,8 +85,7 @@ def diagnostics_check(data):
             "ChildTable", "ChannelPages"
         ]
         expected_value_type = [
-            str, int, dict, dict, dict, dict, str, list, dict, list,
-            str
+            str, int, dict, dict, dict, dict, str, list, dict, list, str
         ]
         expected_check_dict = dict(zip(expected_keys, expected_value_type))
 
@@ -191,9 +190,7 @@ def node_check(data):
         "State", "NumOfRouter", "RlocAddress", "NetworkName", "ExtAddress",
         "Rloc16", "LeaderData", "ExtPanId"
     ]
-    expected_value_type = [
-        int, int, str, str, str, int, dict, str
-    ]
+    expected_value_type = [int, int, str, str, str, int, dict, str]
     expected_check_dict = dict(zip(expected_keys, expected_value_type))
 
     for key, value in expected_check_dict.items():
@@ -365,7 +362,7 @@ def node_network_name_test(thread_num):
     create_multi_thread(get_data_from_url, url, thread_num, response_data)
 
     valid = [node_network_name_check(data) for data in response_data
-             ].count(True)
+            ].count(True)
 
     print(" /node/network-name : all {}, valid {} ".format(thread_num, valid))
 
@@ -390,9 +387,10 @@ def node_num_of_router_test(thread_num):
     create_multi_thread(get_data_from_url, url, thread_num, response_data)
 
     valid = [node_num_of_router_check(data) for data in response_data
-             ].count(True)
+            ].count(True)
 
-    print(" /v1/node/num-of-router : all {}, valid {} ".format(thread_num, valid))
+    print(" /v1/node/num-of-router : all {}, valid {} ".format(
+        thread_num, valid))
 
 
 def node_ext_panid_test(thread_num):
