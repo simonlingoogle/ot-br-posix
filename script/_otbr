@@ -31,6 +31,7 @@ readonly OTBR_TOP_BUILDDIR="${BUILD_DIR}/otbr"
 readonly OTBR_TOP_SRCDIR="$PWD"
 readonly OTBR_OPTIONS="${OTBR_OPTIONS:-}"
 readonly REFERENCE_DEVICE=${REFERENCE_DEVICE:-0}
+readonly BUILD="${BUILD:-1}"
 
 otbr_uninstall()
 {
@@ -83,12 +84,12 @@ otbr_install()
         )
     fi
 
-    (mkdir -p "${OTBR_TOP_BUILDDIR}" \
+    without BUILD || (mkdir -p "${OTBR_TOP_BUILDDIR}" \
         && cd "${OTBR_TOP_BUILDDIR}" \
         && cmake -GNinja "${OTBR_TOP_SRCDIR}" "${otbr_options[@]}" \
         && ninja \
         && sudo ninja install)
-
+    
     if have systemctl; then
         sudo systemctl reload dbus
         sudo systemctl daemon-reload
