@@ -378,7 +378,7 @@ otbrError NdProxyManager::InitIcmp6RawSocket(void)
     VerifyOrExit(setsockopt(mIcmp6RawSock, SOL_SOCKET, SO_BINDTODEVICE, InstanceParams::Get().GetBackboneIfName(),
                             strlen(InstanceParams::Get().GetBackboneIfName())) == 0,
                  error = OTBR_ERROR_ERRNO);
-#else // __NetBSD__ || __FreeBSD__ || __APPLE__
+#else  // __NetBSD__ || __FreeBSD__ || __APPLE__
     VerifyOrExit(setsockopt(mIcmp6RawSock, IPPROTO_IP, IP_BOUND_IF, mBackboneIfName.c_str(), mBackboneIfName.size()),
                  error = OTBR_ERROR_ERRNO);
 #endif // __linux__
