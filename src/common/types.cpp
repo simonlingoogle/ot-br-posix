@@ -41,6 +41,11 @@ Ip6Address::Ip6Address(const uint8_t (&aAddress)[16])
     memcpy(m8, aAddress, sizeof(m8));
 }
 
+void Ip6Address::Set(const in6_addr &aIn6Addr)
+{
+    memcpy(m8, aIn6Addr.s6_addr, sizeof(m8));
+}
+
 std::string Ip6Address::ToString() const
 {
     char strbuf[INET6_ADDRSTRLEN];
@@ -90,6 +95,45 @@ Ip6Address Ip6Address::FromString(const char *aStr)
     SuccessOrDie(FromString(aStr, addr), "inet_pton failed");
 
     return addr;
+}
+
+bool Ip6Address::IsUnspecified(void) const
+{
+    return (m32[0] == 0 && m32[1] == 0 && m32[2] == 0 && m32[3] == 0);
+}
+
+bool Ip6Address::IsLoopback(void) const
+{
+    return (m32[0] == 0 && m32[1] == 0 && m32[2] == 0 && m32[3] == htonl(1));
+}
+
+bool Ip6Address::IsLinkLocal(void) const
+{
+    return (m16[0] & htonl(0xffc0)) == htonl(0xfe80);
+}
+
+uint8_t Ip6Address::GetScope(void) const
+{
+    uint8_t rval;
+
+    if (IsMulticast())
+    {
+        rval = m8[1] & 0xf;
+    }
+    else if (IsLinkLocal())
+    {
+        rval = kLinkLocalScope;
+    }
+    else if (IsLoopback())
+    {
+        rval = kNodeLocalScope;
+    }
+    else
+    {
+        rval = kGlobalScope;
+    }
+
+    return rval;
 }
 
 void Ip6Prefix::Set(const otIp6Prefix &aPrefix)

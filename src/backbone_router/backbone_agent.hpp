@@ -38,8 +38,8 @@
 
 #include "agent/instance_params.hpp"
 #include "agent/ncp_openthread.hpp"
+#include "backbone_router/multicast_routing.hpp"
 #include "backbone_router/nd_proxy.hpp"
-#include "backbone_router/smcroute_manager.hpp"
 
 namespace otbr {
 namespace BackboneRouter {
@@ -119,7 +119,7 @@ private:
 
     otbr::Ncp::ControllerOpenThread &mNcp;
     otBackboneRouterState            mBackboneRouterState;
-    SMCRouteManager                  mSMCRouteManager;
+    MulticastRoutingManager          mMulticastRoutingManager;
     NdProxyManager                   mNdProxyManager;
     Ip6Prefix                        mDomainPrefix;
 };

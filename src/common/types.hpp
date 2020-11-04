@@ -74,7 +74,6 @@ enum otbrError
     OTBR_ERROR_MDNS            = -3,  ///< MDNS error.
     OTBR_ERROR_OPENTHREAD      = -4,  ///< OpenThread error.
     OTBR_ERROR_REST            = -5,  ///< Rest Server error.
-    OTBR_ERROR_SMCROUTE        = -6,  ///< SMCRoute error.
     OTBR_ERROR_NOT_FOUND       = -7,  ///< Not found.
     OTBR_ERROR_PARSE           = -8,  ///< Parse error.
     OTBR_ERROR_NOT_IMPLEMENTED = -9,  ///< Not implemented error.
@@ -102,6 +101,21 @@ OTBR_TOOL_PACKED_BEGIN
 class Ip6Address
 {
 public:
+    /**
+     * IPv6 Address Scopes
+     */
+    enum
+    {
+        kNodeLocalScope      = 0,  ///< Node-Local scope
+        kInterfaceLocalScope = 1,  ///< Interface-Local scope
+        kLinkLocalScope      = 2,  ///< Link-Local scope
+        kRealmLocalScope     = 3,  ///< Realm-Local scope
+        kAdminLocalScope     = 4,  ///< Admin-Local scope
+        kSiteLocalScope      = 5,  ///< Site-Local scope
+        kOrgLocalScope       = 8,  ///< Organization-Local scope
+        kGlobalScope         = 14, ///< Global scope
+    };
+
     /**
      * Default constructor.
      *
@@ -136,6 +150,14 @@ public:
     Ip6Address(const uint8_t (&aAddress)[16]);
 
     /**
+     * Set the Ip6 address from a `in6_addr` structure.
+     *
+     * @param[in]   aIn6Addr    The `in6_addr` structure.
+     *
+     */
+    void Set(const struct in6_addr &aIn6Addr);
+
+    /**
      * This method overloads `<` operator and compares if the Ip6 address is smaller than the other address.
      *
      * @param[in] aOther  The other Ip6 address to compare with.
@@ -154,6 +176,16 @@ public:
      *
      */
     bool operator==(const Ip6Address &aOther) const { return m64[0] == aOther.m64[0] && m64[1] == aOther.m64[1]; }
+
+    /**
+     * This method overloads `==` operator and compares if the Ip6 address is equal to the other address.
+     *
+     * @param[in] aOther  The other Ip6 address to compare with.
+     *
+     * @returns  Whether the Ip6 address is equal to the other address.
+     *
+     */
+    bool operator!=(const Ip6Address &aOther) const { return !(*this == aOther); }
 
     /**
      * Retrieve the 16-bit Thread locator.
@@ -186,6 +218,41 @@ public:
      *
      */
     bool IsMulticast(void) const { return m8[0] == 0xff; }
+
+    /**
+     * This method indicates whether or not the IPv6 address is the Unspecified Address.
+     *
+     * @retval TRUE   If the IPv6 address is the Unspecified Address.
+     * @retval FALSE  If the IPv6 address is not the Unspecified Address.
+     *
+     */
+    bool IsUnspecified(void) const;
+
+    /**
+     * This method indicates whether or not the IPv6 address is the Loopback Address.
+     *
+     * @retval TRUE   If the IPv6 address is the Loopback Address.
+     * @retval FALSE  If the IPv6 address is not the Loopback Address.
+     *
+     */
+    bool IsLoopback(void) const;
+
+    /**
+     * This method indicates whether or not the IPv6 address scope is Link-Local.
+     *
+     * @retval TRUE   If the IPv6 address scope is Link-Local.
+     * @retval FALSE  If the IPv6 address scope is not Link-Local.
+     *
+     */
+    bool IsLinkLocal(void) const;
+
+    /**
+     * This method returns the IPv6 address scope.
+     *
+     * @returns The IPv6 address scope.
+     *
+     */
+    uint8_t GetScope(void) const;
 
     /**
      * This function returns the wellknown Link Local All Nodes Multicast Address (ff02::1).

@@ -58,7 +58,6 @@ void BackboneAgent::Init(void)
     mNcp.On(Ncp::kEventBackboneRouterMulticastListenerEvent, HandleBackboneRouterMulticastListenerEvent, this);
 
     mNdProxyManager.Init();
-    mSMCRouteManager.Init();
 
     HandleBackboneRouterState();
 }
@@ -120,10 +119,10 @@ void BackboneAgent::HandleBackboneRouterMulticastListenerEvent(otBackboneRouterM
     switch (aEvent)
     {
     case OT_BACKBONE_ROUTER_MULTICAST_LISTENER_ADDED:
-        mSMCRouteManager.Add(Ip6Address(aAddress.mFields.m8));
+        mMulticastRoutingManager.Add(Ip6Address(aAddress.mFields.m8));
         break;
     case OT_BACKBONE_ROUTER_MULTICAST_LISTENER_REMOVED:
-        mSMCRouteManager.Remove(Ip6Address(aAddress.mFields.m8));
+        mMulticastRoutingManager.Remove(Ip6Address(aAddress.mFields.m8));
         break;
     }
 }
@@ -137,7 +136,7 @@ void BackboneAgent::OnBecomePrimary(void)
         mNdProxyManager.Enable(mDomainPrefix);
     }
 
-    mSMCRouteManager.Enable();
+    mMulticastRoutingManager.Enable();
 }
 
 void BackboneAgent::OnResignPrimary(void)
@@ -146,7 +145,7 @@ void BackboneAgent::OnResignPrimary(void)
             StateToString(mBackboneRouterState));
 
     mNdProxyManager.Disable();
-    mSMCRouteManager.Disable();
+    mMulticastRoutingManager.Disable();
 }
 
 const char *BackboneAgent::StateToString(otBackboneRouterState aState)
@@ -175,11 +174,13 @@ void BackboneAgent::UpdateFdSet(fd_set & aReadFdSet,
                                 timeval &aTimeout) const
 {
     mNdProxyManager.UpdateFdSet(aReadFdSet, aWriteFdSet, aErrorFdSet, aMaxFd, aTimeout);
+    mMulticastRoutingManager.UpdateFdSet(aReadFdSet, aWriteFdSet, aErrorFdSet, aMaxFd, aTimeout);
 }
 
 void BackboneAgent::Process(const fd_set &aReadFdSet, const fd_set &aWriteFdSet, const fd_set &aErrorFdSet)
 {
     mNdProxyManager.Process(aReadFdSet, aWriteFdSet, aErrorFdSet);
+    mMulticastRoutingManager.Process(aReadFdSet, aWriteFdSet, aErrorFdSet);
 }
 
 void BackboneAgent::HandleBackboneRouterDomainPrefixEvent(void *aContext, int aEvent, va_list aArguments)
