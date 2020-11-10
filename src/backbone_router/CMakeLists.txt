@@ -29,8 +29,7 @@
 add_library(otbr-backbone-router
     backbone_agent.cpp
     nd_proxy.cpp
-    multicast_routing.cpp
-)
+        )
 
 target_link_libraries(otbr-backbone-router PRIVATE
     otbr-common

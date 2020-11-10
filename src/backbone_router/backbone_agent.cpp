@@ -55,7 +55,6 @@ void BackboneAgent::Init(void)
     mNcp.On(Ncp::kEventBackboneRouterState, HandleBackboneRouterState, this);
     mNcp.On(Ncp::kEventBackboneRouterDomainPrefixEvent, HandleBackboneRouterDomainPrefixEvent, this);
     mNcp.On(Ncp::kEventBackboneRouterNdProxyEvent, HandleBackboneRouterNdProxyEvent, this);
-    mNcp.On(Ncp::kEventBackboneRouterMulticastListenerEvent, HandleBackboneRouterMulticastListenerEvent, this);
 
     mNdProxyManager.Init();
 
@@ -96,37 +95,6 @@ exit:
     return;
 }
 
-void BackboneAgent::HandleBackboneRouterMulticastListenerEvent(void *aContext, int aEvent, va_list aArguments)
-{
-    OT_UNUSED_VARIABLE(aEvent);
-
-    otBackboneRouterMulticastListenerEvent event;
-    const otIp6Address *                   address;
-
-    assert(aEvent == Ncp::kEventBackboneRouterMulticastListenerEvent);
-
-    event   = static_cast<otBackboneRouterMulticastListenerEvent>(va_arg(aArguments, int));
-    address = va_arg(aArguments, const otIp6Address *);
-    static_cast<BackboneAgent *>(aContext)->HandleBackboneRouterMulticastListenerEvent(event, *address);
-}
-
-void BackboneAgent::HandleBackboneRouterMulticastListenerEvent(otBackboneRouterMulticastListenerEvent aEvent,
-                                                               const otIp6Address &                   aAddress)
-{
-    otbrLog(OTBR_LOG_INFO, "BackboneAgent: Multicast Listener event: %d, address: %s, state: %s", aEvent,
-            Ip6Address(aAddress.mFields.m8).ToString().c_str(), StateToString(mBackboneRouterState));
-
-    switch (aEvent)
-    {
-    case OT_BACKBONE_ROUTER_MULTICAST_LISTENER_ADDED:
-        mMulticastRoutingManager.Add(Ip6Address(aAddress.mFields.m8));
-        break;
-    case OT_BACKBONE_ROUTER_MULTICAST_LISTENER_REMOVED:
-        mMulticastRoutingManager.Remove(Ip6Address(aAddress.mFields.m8));
-        break;
-    }
-}
-
 void BackboneAgent::OnBecomePrimary(void)
 {
     otbrLog(OTBR_LOG_NOTICE, "BackboneAgent: Backbone Router becomes Primary!");
@@ -135,8 +103,6 @@ void BackboneAgent::OnBecomePrimary(void)
     {
         mNdProxyManager.Enable(mDomainPrefix);
     }
-
-    mMulticastRoutingManager.Enable();
 }
 
 void BackboneAgent::OnResignPrimary(void)
@@ -145,7 +111,6 @@ void BackboneAgent::OnResignPrimary(void)
             StateToString(mBackboneRouterState));
 
     mNdProxyManager.Disable();
-    mMulticastRoutingManager.Disable();
 }
 
 const char *BackboneAgent::StateToString(otBackboneRouterState aState)
@@ -174,13 +139,11 @@ void BackboneAgent::UpdateFdSet(fd_set & aReadFdSet,
                                 timeval &aTimeout) const
 {
     mNdProxyManager.UpdateFdSet(aReadFdSet, aWriteFdSet, aErrorFdSet, aMaxFd, aTimeout);
-    mMulticastRoutingManager.UpdateFdSet(aReadFdSet, aWriteFdSet, aErrorFdSet, aMaxFd, aTimeout);
 }
 
 void BackboneAgent::Process(const fd_set &aReadFdSet, const fd_set &aWriteFdSet, const fd_set &aErrorFdSet)
 {
     mNdProxyManager.Process(aReadFdSet, aWriteFdSet, aErrorFdSet);
-    mMulticastRoutingManager.Process(aReadFdSet, aWriteFdSet, aErrorFdSet);
 }
 
 void BackboneAgent::HandleBackboneRouterDomainPrefixEvent(void *aContext, int aEvent, va_list aArguments)

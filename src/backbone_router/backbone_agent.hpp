@@ -38,7 +38,6 @@
 
 #include "agent/instance_params.hpp"
 #include "agent/ncp_openthread.hpp"
-#include "backbone_router/multicast_routing.hpp"
 #include "backbone_router/nd_proxy.hpp"
 
 namespace otbr {
@@ -111,15 +110,11 @@ private:
                                                       const otIp6Prefix *               aDomainPrefix);
     static void HandleBackboneRouterNdProxyEvent(void *aContext, int aEvent, va_list aArguments);
     void        HandleBackboneRouterNdProxyEvent(otBackboneRouterNdProxyEvent aEvent, const otIp6Address *aAddress);
-    static void HandleBackboneRouterMulticastListenerEvent(void *aContext, int aEvent, va_list aArguments);
-    void        HandleBackboneRouterMulticastListenerEvent(otBackboneRouterMulticastListenerEvent aEvent,
-                                                           const otIp6Address &                   aAddress);
 
     static const char *StateToString(otBackboneRouterState aState);
 
     otbr::Ncp::ControllerOpenThread &mNcp;
     otBackboneRouterState            mBackboneRouterState;
-    MulticastRoutingManager          mMulticastRoutingManager;
     NdProxyManager                   mNdProxyManager;
     Ip6Prefix                        mDomainPrefix;
 };
