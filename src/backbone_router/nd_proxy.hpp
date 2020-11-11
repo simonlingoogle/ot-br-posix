@@ -38,8 +38,12 @@
 #define __APPLE_USE_RFC_3542
 #endif
 
+#define HANDLE_UNICAST_NS 0
+
 #include <inttypes.h>
+#if HANDLE_UNICAST_NS
 #include <libnetfilter_queue/libnetfilter_queue.h>
+#endif
 #include <map>
 #include <netinet/in.h>
 #include <set>
@@ -76,9 +80,11 @@ public:
     explicit NdProxyManager(otbr::Ncp::ControllerOpenThread &aNcp)
         : mNcp(aNcp)
         , mIcmp6RawSock(-1)
+#if HANDLE_UNICAST_NS
         , mUnicastNsQueueSock(-1)
         , mNfqHandler(nullptr)
         , mNfqQueueHandler(nullptr)
+#endif
     {
     }
 
@@ -162,19 +168,23 @@ private:
     void       ProcessUnicastNeighborSolicition(void);
     void       JoinSolicitedNodeMulticastGroup(const Ip6Address &aTarget) const;
     void       LeaveSolicitedNodeMulticastGroup(const Ip6Address &aTarget) const;
+#if HANDLE_UNICAST_NS
     static int HandleNetfilterQueue(struct nfq_q_handle *aNfQueueHandler,
                                     struct nfgenmsg *    aNfMsg,
                                     struct nfq_data *    aNfData,
                                     void *               aContext);
     int HandleNetfilterQueue(struct nfq_q_handle *aNfQueueHandler, struct nfgenmsg *aNfMsg, struct nfq_data *aNfData);
+#endif
 
     otbr::Ncp::ControllerOpenThread &mNcp;
     std::set<Ip6Address>             mNdProxySet;
     uint32_t                         mBackboneIfIndex;
     int                              mIcmp6RawSock;
+#if HANDLE_UNICAST_NS
     int                              mUnicastNsQueueSock;
     struct nfq_handle *              mNfqHandler;      ///< A pointer to an NFQUEUE handler.
     struct nfq_q_handle *            mNfqQueueHandler; ///< A pointer to a newly created queue.
+#endif
     MacAddress                       mMacAddress;
     Ip6Prefix                        mDomainPrefix;
 };

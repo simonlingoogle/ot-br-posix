@@ -69,6 +69,7 @@ void NdProxyManager::Enable(const Ip6Prefix &aDomainPrefix)
 
     SuccessOrExit(error = InitIcmp6RawSocket());
     SuccessOrExit(error = UpdateMacAddress());
+#if HANDLE_UNICAST_NS
     SuccessOrExit(error = InitNetfilterQueue());
 
     // Add ip6tables rule for unicast ICMPv6 messages
@@ -78,10 +79,14 @@ void NdProxyManager::Enable(const Ip6Prefix &aDomainPrefix)
                      mDomainPrefix.ToString().c_str(), InstanceParams::Get().GetBackboneIfName()) == 0,
                  error = OTBR_ERROR_ERRNO);
 
+#endif
+
 exit:
     if (error != OTBR_ERROR_NONE)
     {
+#if HANDLE_UNICAST_NS
         FiniNetfilterQueue();
+#endif
         FiniIcmp6RawSocket();
     }
 
@@ -94,7 +99,9 @@ void NdProxyManager::Disable(void)
 
     VerifyOrExit(IsEnabled());
 
+#if HANDLE_UNICAST_NS
     FiniNetfilterQueue();
+#endif
     FiniIcmp6RawSocket();
 
     // Remove ip6tables rule for unicast ICMPv6 messages
@@ -129,12 +136,13 @@ void NdProxyManager::UpdateFdSet(fd_set & aReadFdSet,
         FD_SET(mIcmp6RawSock, &aReadFdSet);
         aMaxFd = std::max(aMaxFd, mIcmp6RawSock);
     }
-
+#if HANDLE_UNICAST_NS
     if (mUnicastNsQueueSock >= 0)
     {
         FD_SET(mUnicastNsQueueSock, &aReadFdSet);
         aMaxFd = std::max(aMaxFd, mUnicastNsQueueSock);
     }
+#endif
 }
 
 void NdProxyManager::Process(const fd_set &aReadFdSet, const fd_set &aWriteFdSet, const fd_set &aErrorFdSet)
@@ -149,10 +157,13 @@ void NdProxyManager::Process(const fd_set &aReadFdSet, const fd_set &aWriteFdSet
         ProcessMulticastNeighborSolicition();
     }
 
+#if HANDLE_UNICAST_NS
     if (FD_ISSET(mUnicastNsQueueSock, &aReadFdSet))
     {
         ProcessUnicastNeighborSolicition();
     }
+#endif
+
 exit:
     return;
 }
@@ -254,6 +265,7 @@ exit:
     otbrLogResult(error, "NdProxyManager: %s", __FUNCTION__);
 }
 
+#if HANDLE_UNICAST_NS
 void NdProxyManager::ProcessUnicastNeighborSolicition(void)
 {
     otbrError error = OTBR_ERROR_NONE;
@@ -268,6 +280,7 @@ void NdProxyManager::ProcessUnicastNeighborSolicition(void)
 exit:
     otbrLogResult(error, "NdProxyManager: %s", __FUNCTION__);
 }
+#endif
 
 void NdProxyManager::HandleBackboneRouterNdProxyEvent(otBackboneRouterNdProxyEvent aEvent, const otIp6Address *aDua)
 {
@@ -424,6 +437,7 @@ void NdProxyManager::FiniIcmp6RawSocket(void)
     }
 }
 
+#if HANDLE_UNICAST_NS
 otbrError NdProxyManager::InitNetfilterQueue(void)
 {
     otbrError error = OTBR_ERROR_ERRNO;
@@ -538,6 +552,7 @@ exit:
 
     return ret;
 }
+#endif
 
 void NdProxyManager::JoinSolicitedNodeMulticastGroup(const Ip6Address &aTarget) const
 {

@@ -88,6 +88,7 @@ LOCAL_CFLAGS += \
     -DOTBR_PACKAGE_VERSION=\"0.2.0\" \
     -DOTBR_ENABLE_DBUS_SERVER=1 \
     -DOTBR_DBUS_INTROSPECT_FILE=\"\" \
+    -DOTBR_ENABLE_BACKBONE_ROUTER=1 \
     $(OTBR_PROJECT_CFLAGS) \
 
 LOCAL_CPPFLAGS += -std=c++14
@@ -99,8 +100,11 @@ LOCAL_SRC_FILES := \
     src/agent/main.cpp \
     src/agent/ncp_openthread.cpp \
     src/agent/thread_helper.cpp \
+    src/backbone_router/backbone_agent.cpp \
+    src/backbone_router/nd_proxy.cpp \
     src/common/logging.cpp \
     src/common/region_code.cpp \
+    src/common/types.cpp \
     src/dbus/common/dbus_message_dump.cpp \
     src/dbus/common/dbus_message_helper.cpp \
     src/dbus/common/dbus_message_helper_openthread.cpp \
@@ -112,6 +116,7 @@ LOCAL_SRC_FILES := \
     src/utils/event_emitter.cpp \
     src/utils/hex.cpp \
     src/utils/strcpy_utils.cpp \
+    src/utils/system_utils.cpp \
 
 LOCAL_STATIC_LIBRARIES += \
     libopenthread-ncp \

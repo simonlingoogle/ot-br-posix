@@ -222,7 +222,7 @@ int main(int argc, char *argv[])
     int                              opt;
     int                              ret                   = EXIT_SUCCESS;
     const char *                     interfaceName         = kDefaultInterfaceName;
-    const char *                     backboneInterfaceName = "";
+    const char *                     backboneInterfaceName = "wlan0";
     otbr::Ncp::Controller *          ncp                   = nullptr;
     otbr::Ncp::ControllerOpenThread *ncpOpenThread         = nullptr;
     bool                             verbose               = false;
