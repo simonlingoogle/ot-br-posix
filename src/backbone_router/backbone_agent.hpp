@@ -38,6 +38,7 @@
 
 #include "agent/instance_params.hpp"
 #include "agent/ncp_openthread.hpp"
+#include "backbone_router/dua_routing_manager.hpp"
 #include "backbone_router/nd_proxy.hpp"
 
 namespace otbr {
@@ -117,6 +118,7 @@ private:
     otBackboneRouterState            mBackboneRouterState;
     NdProxyManager                   mNdProxyManager;
     Ip6Prefix                        mDomainPrefix;
+    DuaRoutingManager                mDuaRoutingManager;
 };
 
 #endif // OTBR_ENABLE_BACKBONE_ROUTER
