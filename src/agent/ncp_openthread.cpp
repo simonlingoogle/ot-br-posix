@@ -69,7 +69,7 @@ ControllerOpenThread::ControllerOpenThread(const char *aInterfaceName,
                                            const char *aRadioUrl,
                                            const char *aBackboneInterfaceName)
     : mTriedAttach(false)
-    , mAutoResume(false)
+    , mAutoResume(true)
 {
     memset(&mConfig, 0, sizeof(mConfig));
 
@@ -241,6 +241,7 @@ void ControllerOpenThread::Process(const otSysMainloopContext &aMainloop)
         mTimers.erase(mTimers.begin());
     }
 
+    otbrLog(OTBR_LOG_CRIT, "mAutoResume: %d, mTriedAttach:%d", mAutoResume, mTriedAttach);
     if (mAutoResume && !mTriedAttach && mThreadHelper->TryResumeNetwork() == OT_ERROR_NONE)
     {
         mTriedAttach = true;

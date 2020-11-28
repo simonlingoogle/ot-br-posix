@@ -110,8 +110,10 @@ static void HandleSignal(int aSignal)
 static int Mainloop(otbr::AgentInstance &aInstance, const char *aInterfaceName)
 {
     int error = EXIT_FAILURE;
-#if OTBR_ENABLE_DBUS_SERVER
+
     ControllerOpenThread *     ncpOpenThread = reinterpret_cast<ControllerOpenThread *>(&aInstance.GetNcp());
+
+#if OTBR_ENABLE_DBUS_SERVER
     std::unique_ptr<DBusAgent> dbusAgent     = std::unique_ptr<DBusAgent>(new DBusAgent(aInterfaceName, ncpOpenThread));
     dbusAgent->Init();
 #else
@@ -157,13 +159,11 @@ static int Mainloop(otbr::AgentInstance &aInstance, const char *aInterfaceName)
         rval = select(mainloop.mMaxFd + 1, &mainloop.mReadFdSet, &mainloop.mWriteFdSet, &mainloop.mErrorFdSet,
                       &mainloop.mTimeout);
 
-#if OTBR_ENABLE_DBUS_SERVER
         if (ncpOpenThread->IsResetRequested())
         {
             ncpOpenThread->Reset();
             continue;
         }
-#endif
 
         if (rval >= 0)
         {
