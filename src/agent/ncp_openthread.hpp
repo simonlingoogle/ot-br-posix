@@ -122,6 +122,8 @@ public:
      */
     void Process(const otSysMainloopContext &aMainloop) override;
 
+    void SetAutoResume(bool aAutoResume) { mAutoResume = aAutoResume; }
+
     /**
      * This method reset the NCP controller.
      *
@@ -200,6 +202,7 @@ private:
     std::unique_ptr<otbr::agent::ThreadHelper>                                      mThreadHelper;
     std::multimap<std::chrono::steady_clock::time_point, std::function<void(void)>> mTimers;
     bool                                                                            mTriedAttach;
+    bool                                                                            mAutoResume;
     std::vector<std::function<void(void)>>                                          mResetHandlers;
     std::string                                                                     mRegionCode;
 

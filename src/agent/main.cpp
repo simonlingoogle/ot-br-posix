@@ -86,13 +86,15 @@ enum
 };
 
 // Default poll timeout.
-static const struct timeval kPollTimeout = {10, 0};
-static const struct option  kOptions[]   = {
+static const struct timeval kPollTimeout  = {10, 0};
+static int                  sNoAutoResume = 0;
+static const struct option  kOptions[]    = {
 #if OTBR_ENABLE_BACKBONE_ROUTER
     {"backbone-ifname", required_argument, nullptr, OTBR_OPT_BACKBONE_INTERFACE_NAME},
 #endif
     {"debug-level", required_argument, nullptr, OTBR_OPT_DEBUG_LEVEL},
     {"help", no_argument, nullptr, OTBR_OPT_HELP},
+    {"no-auto-resume", no_argument, &sNoAutoResume, 1},
     {"thread-ifname", required_argument, nullptr, OTBR_OPT_INTERFACE_NAME},
     {"verbose", no_argument, nullptr, OTBR_OPT_VERBOSE},
     {"version", no_argument, nullptr, OTBR_OPT_VERSION},
@@ -196,7 +198,8 @@ static int Mainloop(otbr::AgentInstance &aInstance, const char *aInterfaceName)
 
 static void PrintHelp(const char *aProgramName)
 {
-    fprintf(stderr, "Usage: %s [--reg region] [-I interfaceName] [-d DEBUG_LEVEL] [-v] RADIO_URL\n", aProgramName);
+    fprintf(stderr, "Usage: %s [--reg region] [-I interfaceName] [-d DEBUG_LEVEL] [-v] [--no-auto-resume] RADIO_URL\n",
+            aProgramName);
     fprintf(stderr, "%s", otSysGetRadioUrlHelpString());
 }
 
@@ -276,6 +279,10 @@ int main(int argc, char *argv[])
             regionCode = optarg;
             break;
 
+        case 0:
+            // long flags are stored
+            break;
+
         default:
             PrintHelp(argv[0]);
             ExitNow(ret = EXIT_FAILURE);
@@ -297,6 +304,9 @@ int main(int argc, char *argv[])
 #endif
     otbrLog(OTBR_LOG_INFO, "Backbone interface %s",
             backboneInterfaceName == nullptr ? "(null)" : backboneInterfaceName);
+
+    ncpOpenThread->SetAutoResume(sNoAutoResume == 0);
+
     if (!regionCode.empty())
     {
         otbrLog(OTBR_LOG_INFO, "Region %s", regionCode.c_str());
