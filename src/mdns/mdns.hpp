@@ -34,6 +34,7 @@
 #ifndef OTBR_AGENT_MDNS_HPP_
 #define OTBR_AGENT_MDNS_HPP_
 
+#include <functional>
 #include <vector>
 
 #include <sys/select.h>
@@ -92,6 +93,41 @@ public:
     };
 
     typedef std::vector<TxtEntry> TxtList;
+
+    /**
+     * This structure represents information of a discovered service instance.
+     *
+     */
+    struct DiscoveredInstanceInfo
+    {
+        /**
+         * Constructor to initialize a `DiscoveredInstanceInfo` instance.
+         *
+         */
+        DiscoveredInstanceInfo(void)
+            : mPort(0)
+            , mPriority(0)
+            , mWeight(0)
+            , mTtl(0)
+        {
+        }
+
+        std::string          mName;     ///< Instance name.
+        std::string          mHostName; ///< Full host name.
+        Ip6Address           mAddress;  ///< IPv6 address.
+        uint16_t             mPort;     ///< Port.
+        uint16_t             mPriority; ///< Service priority.
+        uint16_t             mWeight;   ///< Service weight.
+        std::vector<uint8_t> mTxtData;  ///< TXT RDATA bytes.
+        uint32_t             mTtl;      ///< Service TTL.
+    };
+
+    /**
+     * This function is called to notify a discovered service instance.
+     *
+     */
+    typedef std::function<void(const std::string &aType, const DiscoveredInstanceInfo &aInstanceInfo)>
+        DiscoveredServiceInstanceCallback;
 
     /**
      * MDNS state values.
@@ -244,6 +280,42 @@ public:
      *
      */
     virtual otbrError UnpublishHost(const char *aName) = 0;
+
+    /**
+     * This method subscribes a given service or service instance. If @p aInstanceName is not empty, this method
+     * subscribes the service instance. Otherwise, this method subscribes the service.
+     *
+     * mDNS implementations should use the `DiscoveredServiceInstanceCallback` function to notify discovered service
+     * instances.
+     *
+     * @note Discovery Proxy implementation guarantees no duplicate subscriptions for the same service or service
+     * instance.
+     *
+     * @param[in]  aType          The service type.
+     * @param[in]  aInstanceName  The service instance to subscribe, or empty to subscribe the service.
+     *
+     */
+    virtual void SubscribeService(const std::string &aType, const std::string &aInstanceName) = 0;
+
+    /**
+     * This method unsubscribes a given service or service insatnce. If @p aInstanceName is not empty, this method
+     * unsubscribes the service instance. Otherwise, this method unsubscribes the service.
+     *
+     * @note Discovery Proxy implementation guarantees no redundant unsubscription for a service or service instance.
+     *
+     * @param[in]  aType          The service type.
+     * @param[in]  aInstanceName  The service instance to unsubscribe, or empty to unsubscribe the service.
+     *
+     */
+    virtual void UnsubscribeService(const std::string &aType, const std::string &aInstanceName) = 0;
+
+    /**
+     * This method sets the callback for notifying discovered service instances.
+     *
+     * @param[in] aCallback  The callback function to receive discovered service instances.
+     *
+     */
+    virtual void SetDiscoveredServiceInstanceCallback(DiscoveredServiceInstanceCallback aCallback) = 0;
 
     virtual ~Publisher(void) = default;
 

@@ -37,6 +37,7 @@
 #include <stdint.h>
 
 #include "agent/advertising_proxy.hpp"
+#include "agent/discovery_proxy.hpp"
 #include "agent/instance_params.hpp"
 #include "agent/ncp.hpp"
 #include "common/mainloop.hpp"
@@ -143,6 +144,9 @@ private:
 #endif
 #if OTBR_ENABLE_BACKBONE_ROUTER
     BackboneRouter::BackboneAgent mBackboneAgent;
+#endif
+#if OTBR_ENABLE_DNSSD_DISCOVERY_PROXY
+    Dnssd::DiscoveryProxy mDiscoveryProxy;
 #endif
 
     uint8_t  mExtPanId[kSizeExtPanId];

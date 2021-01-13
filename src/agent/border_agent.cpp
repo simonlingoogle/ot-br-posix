@@ -94,6 +94,9 @@ BorderAgent::BorderAgent(Ncp::Controller *aNcp)
 #if OTBR_ENABLE_BACKBONE_ROUTER
     , mBackboneAgent(*reinterpret_cast<Ncp::ControllerOpenThread *>(aNcp))
 #endif
+#if OTBR_ENABLE_DNSSD_DISCOVERY_PROXY
+    , mDiscoveryProxy(*reinterpret_cast<Ncp::ControllerOpenThread *>(aNcp), *mPublisher)
+#endif
     , mThreadStarted(false)
 {
 }
@@ -143,6 +146,10 @@ otbrError BorderAgent::Start(void)
     mAdvertisingProxy.Start();
 #endif
 
+#if OTBR_ENABLE_DNSSD_DISCOVERY_PROXY
+    mDiscoveryProxy.Start();
+#endif
+
     StartPublishService();
 #endif // OTBR_ENABLE_MDNS_AVAHI || OTBR_ENABLE_MDNS_MDNSSD || OTBR_ENABLE_MDNS_MOJO
 
@@ -161,6 +168,11 @@ void BorderAgent::Stop(void)
 #if OTBR_ENABLE_SRP_ADVERTISING_PROXY
     mAdvertisingProxy.Stop();
 #endif
+
+#if OTBR_ENABLE_DNSSD_DISCOVERY_PROXY
+    mDiscoveryProxy.Stop();
+#endif
+
 #endif
 }
 

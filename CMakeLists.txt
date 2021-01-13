@@ -37,6 +37,7 @@ set(OTBR_INFRA_IF_NAME "wlan0" CACHE STRING "The infrastructure interface name")
 option(OTBR_BACKBONE_ROUTER         "Enable Backbone Router" OFF)
 option(OTBR_BORDER_ROUTING          "Enable Border Routing Manager" OFF)
 option(OTBR_DBUS                    "Enable DBus support" OFF)
+option(OTBR_DNSSD_DISCOVERY_PROXY   "Enable DNS-SD Discovery Proxy support" OFF)
 option(OTBR_DOC                     "Build documentation" OFF)
 option(OTBR_DUA_ROUTING             "Enable Backbone Router DUA Routing" OFF)
 option(OTBR_OPENWRT                 "Enable OpenWrt support" OFF)
@@ -100,6 +101,12 @@ include(GNUInstallDirs)
 if (OTBR_SRP_ADVERTISING_PROXY)
     target_compile_definitions(otbr-config INTERFACE
             OTBR_ENABLE_SRP_ADVERTISING_PROXY=1
+    )
+endif()
+
+if (OTBR_DNSSD_DISCOVERY_PROXY)
+    target_compile_definitions(otbr-config INTERFACE
+            OTBR_ENABLE_DNSSD_DISCOVERY_PROXY=1
     )
 endif()
 

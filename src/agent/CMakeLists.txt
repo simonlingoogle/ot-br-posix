@@ -33,6 +33,8 @@ add_executable(otbr-agent
     agent_instance.hpp
     border_agent.cpp
     border_agent.hpp
+    discovery_proxy.cpp
+    discovery_proxy.hpp
     main.cpp
     ncp.hpp
     uris.hpp
