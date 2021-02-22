@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">openthread-br
-   &#160;<span id="projectnumber">0.2.0-35e9327</span>
+   &#160;<span id="projectnumber">0.2.0-f6404ab</span>
    </div>
   </td>
  </tr>
@@ -70,7 +70,6 @@ $(function() {
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">types.hpp File Reference</div>  </div>
@@ -81,7 +80,6 @@ $(function() {
 <code>#include &lt;string.h&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
-<code>#include &lt;openthread/error.h&gt;</code><br />
 <code>#include &quot;common/toolchain.hpp&quot;</code><br />
 </div>
 <p><a href="../../dc/d53/common_2types_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -138,11 +136,6 @@ Enumerations</h2></td></tr>
 <a class="el" href="../../dc/d53/common_2types_8hpp.html#a0f4a0a1628a3c1fa46cb88cc1dddf207a3c38522508f5020f29a8ce40fa34a7e7">otbr::kSizeEui64</a> = 8
  }</td></tr>
 <tr class="separator:a0f4a0a1628a3c1fa46cb88cc1dddf207"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a587af1f59ec4c482227be1f9ba88bfd3"><td class="memItemLeft" align="right" valign="top">otError&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d53/common_2types_8hpp.html#a587af1f59ec4c482227be1f9ba88bfd3">OtbrErrorToOtError</a> (<a class="el" href="../../dc/d53/common_2types_8hpp.html#a9addd74a14dca1dab1b3e7a8205455aa">otbrError</a> aError)</td></tr>
-<tr class="separator:a587af1f59ec4c482227be1f9ba88bfd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -231,33 +224,6 @@ OTBR_TOOL_PACKED_BEGIN class <a class="el" href="../../d2/dfe/classotbr_1_1Ip6Ad
 <tr><td class="fieldname"><a id="a9addd74a14dca1dab1b3e7a8205455aaa54a711b0e0b72121f06c98fecc00ba69"></a>OTBR_ERROR_DUPLICATED&#160;</td><td class="fielddoc"><p>Duplicated operation, resource or name. </p>
 </td></tr>
 </table>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a587af1f59ec4c482227be1f9ba88bfd3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a587af1f59ec4c482227be1f9ba88bfd3">&#9670;&nbsp;</a></span>OtbrErrorToOtError()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">otError OtbrErrorToOtError </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../dc/d53/common_2types_8hpp.html#a9addd74a14dca1dab1b3e7a8205455aa">otbrError</a>&#160;</td>
-          <td class="paramname"><em>aError</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>This function converts <code>otbrError</code> to <code>otError</code>.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aError</td><td>An OTBR error.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The corresponding OT error. </dd></dl>
 
 </div>
 </div>

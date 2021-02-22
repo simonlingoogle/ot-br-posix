@@ -89,14 +89,13 @@ var searchData=
   ['otbrdump_442',['otbrDump',['../d0/da9/logging_8hpp.html#a4e9b1ae7e5d59c205377bd96221c9ea9',1,'logging.cpp']]],
   ['otbrerror_443',['otbrError',['../dc/d53/common_2types_8hpp.html#a9addd74a14dca1dab1b3e7a8205455aa',1,'types.hpp']]],
   ['otbrerrorstring_444',['otbrErrorString',['../d0/da9/logging_8hpp.html#ada4d1801b5705ba2b957fd1802b8a984',1,'logging.cpp']]],
-  ['otbrerrortooterror_445',['OtbrErrorToOtError',['../dc/d53/common_2types_8hpp.html#a587af1f59ec4c482227be1f9ba88bfd3',1,'types.cpp']]],
-  ['otbrlog_446',['otbrLog',['../d0/da9/logging_8hpp.html#a7b7dbf451e3c68eac8f0a7d09df427ef',1,'logging.cpp']]],
-  ['otbrlogdeinit_447',['otbrLogDeinit',['../d0/da9/logging_8hpp.html#a5a2bf385c625fa5e9beaba21d26326fe',1,'logging.cpp']]],
-  ['otbrlogenablesyslog_448',['otbrLogEnableSyslog',['../d0/da9/logging_8hpp.html#a762b4410fc095825139d18166e8a64e6',1,'logging.hpp']]],
-  ['otbrloggetlevel_449',['otbrLogGetLevel',['../d0/da9/logging_8hpp.html#adf6eaf3ff77296eb5582c03e1a4efedc',1,'logging.cpp']]],
-  ['otbrloginit_450',['otbrLogInit',['../d0/da9/logging_8hpp.html#aa70366d1b518e115c7fc3bf7ed9da758',1,'logging.cpp']]],
-  ['otbrlogresult_451',['otbrLogResult',['../d0/da9/logging_8hpp.html#a8de3dbe15c57a9fb48c735835b20d939',1,'logging.hpp']]],
-  ['otbrlogv_452',['otbrLogv',['../d0/da9/logging_8hpp.html#a7f7ac1b8219a2883df264559ffd91fba',1,'logging.cpp']]],
-  ['otubus_2ehpp_453',['otubus.hpp',['../d8/d66/otubus_8hpp.html',1,'']]],
-  ['ubus_454',['ubus',['../de/d9a/namespaceotbr_1_1ubus.html',1,'otbr']]]
+  ['otbrlog_445',['otbrLog',['../d0/da9/logging_8hpp.html#a7b7dbf451e3c68eac8f0a7d09df427ef',1,'logging.cpp']]],
+  ['otbrlogdeinit_446',['otbrLogDeinit',['../d0/da9/logging_8hpp.html#a5a2bf385c625fa5e9beaba21d26326fe',1,'logging.cpp']]],
+  ['otbrlogenablesyslog_447',['otbrLogEnableSyslog',['../d0/da9/logging_8hpp.html#a762b4410fc095825139d18166e8a64e6',1,'logging.hpp']]],
+  ['otbrloggetlevel_448',['otbrLogGetLevel',['../d0/da9/logging_8hpp.html#adf6eaf3ff77296eb5582c03e1a4efedc',1,'logging.cpp']]],
+  ['otbrloginit_449',['otbrLogInit',['../d0/da9/logging_8hpp.html#aa70366d1b518e115c7fc3bf7ed9da758',1,'logging.cpp']]],
+  ['otbrlogresult_450',['otbrLogResult',['../d0/da9/logging_8hpp.html#a8de3dbe15c57a9fb48c735835b20d939',1,'logging.hpp']]],
+  ['otbrlogv_451',['otbrLogv',['../d0/da9/logging_8hpp.html#a7f7ac1b8219a2883df264559ffd91fba',1,'logging.cpp']]],
+  ['otubus_2ehpp_452',['otubus.hpp',['../d8/d66/otubus_8hpp.html',1,'']]],
+  ['ubus_453',['ubus',['../de/d9a/namespaceotbr_1_1ubus.html',1,'otbr']]]
 ];
