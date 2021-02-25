@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['threadapidbus_680',['ThreadApiDBus',['../df/dcc/classotbr_1_1DBus_1_1ThreadApiDBus.html',1,'otbr::DBus']]],
-  ['threadhelper_681',['ThreadHelper',['../d4/d44/classotbr_1_1agent_1_1ThreadHelper.html',1,'otbr::agent']]],
-  ['tlv_682',['Tlv',['../d0/d02/classotbr_1_1Tlv.html',1,'otbr']]],
-  ['txtentry_683',['TxtEntry',['../d0/dee/structotbr_1_1Mdns_1_1Publisher_1_1TxtEntry.html',1,'otbr::Mdns::Publisher']]]
+  ['taskrunner_689',['TaskRunner',['../dd/d62/classotbr_1_1TaskRunner.html',1,'otbr']]],
+  ['threadapidbus_690',['ThreadApiDBus',['../df/dcc/classotbr_1_1DBus_1_1ThreadApiDBus.html',1,'otbr::DBus']]],
+  ['threadhelper_691',['ThreadHelper',['../d4/d44/classotbr_1_1agent_1_1ThreadHelper.html',1,'otbr::agent']]],
+  ['tlv_692',['Tlv',['../d0/d02/classotbr_1_1Tlv.html',1,'otbr']]],
+  ['txtentry_693',['TxtEntry',['../d0/dee/structotbr_1_1Mdns_1_1Publisher_1_1TxtEntry.html',1,'otbr::Mdns::Publisher']]]
 ];
