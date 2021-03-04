@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">openthread-br
-   &#160;<span id="projectnumber">0.2.0-bfd60c3</span>
+   &#160;<span id="projectnumber">0.2.0-9e91ef6</span>
    </div>
   </td>
  </tr>
@@ -114,10 +114,6 @@ Functions</h2></td></tr>
 <tr class="separator:gaa6e411ecc13d0c084d13557975b1a7e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae3f89e92e7e2a33f3c7709dfb3056340"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/dae/group__border-router-ncp.html#gae3f89e92e7e2a33f3c7709dfb3056340">otbr::Ncp::Controller::Process</a> (const otSysMainloopContext &amp;aMainloop)=0</td></tr>
 <tr class="separator:gae3f89e92e7e2a33f3c7709dfb3056340"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga021b198819062851ea5153464c57c39f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/dae/group__border-router-ncp.html#ga021b198819062851ea5153464c57c39f">otbr::Ncp::Controller::Reset</a> (void)=0</td></tr>
-<tr class="separator:ga021b198819062851ea5153464c57c39f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7fc69ac2520487f7cd8d8a686c7e82ae"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/dae/group__border-router-ncp.html#ga7fc69ac2520487f7cd8d8a686c7e82ae">otbr::Ncp::Controller::IsResetRequested</a> (void)=0</td></tr>
-<tr class="separator:ga7fc69ac2520487f7cd8d8a686c7e82ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga782ea989840ead62a7f99822f5e6679a"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../dc/d53/common_2types_8hpp.html#a9addd74a14dca1dab1b3e7a8205455aa">otbrError</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/dae/group__border-router-ncp.html#ga782ea989840ead62a7f99822f5e6679a">otbr::Ncp::Controller::RequestEvent</a> (int aEvent)=0</td></tr>
 <tr class="separator:ga782ea989840ead62a7f99822f5e6679a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga9f7019d3b0be9d173e424bfe27c3efb1"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../da/d6a/classotbr_1_1Ncp_1_1Controller.html">Controller</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/dae/group__border-router-ncp.html#ga9f7019d3b0be9d173e424bfe27c3efb1">otbr::Ncp::Controller::Create</a> (const char *aInterfaceName, const char *aRadioUrl, const char *aBackboneInterfaceName=nullptr)</td></tr>
@@ -286,42 +282,6 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ga7fc69ac2520487f7cd8d8a686c7e82ae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga7fc69ac2520487f7cd8d8a686c7e82ae">&#9670;&nbsp;</a></span>IsResetRequested()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool otbr::Ncp::Controller::IsResetRequested </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>This method return whether reset is requested.</p>
-<dl class="retval"><dt>Return values</dt><dd>
-  <table class="retval">
-    <tr><td class="paramname">TRUE</td><td>reset is requested. </td></tr>
-    <tr><td class="paramname">FALSE</td><td>reset isn't requested. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Implemented in <a class="el" href="../../db/d17/classotbr_1_1Ncp_1_1ControllerOpenThread.html#a20b7d45e89b6344fe819a830bc9f7c9c">otbr::Ncp::ControllerOpenThread</a>.</p>
-
-</div>
-</div>
 <a id="gae3f89e92e7e2a33f3c7709dfb3056340"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gae3f89e92e7e2a33f3c7709dfb3056340">&#9670;&nbsp;</a></span>Process()</h2>
 
@@ -396,35 +356,6 @@ Functions</h2></td></tr>
 </dl>
 
 <p>Implemented in <a class="el" href="../../db/d17/classotbr_1_1Ncp_1_1ControllerOpenThread.html#a8524d0ecd87b3e5c08882f84ecd823cc">otbr::Ncp::ControllerOpenThread</a>.</p>
-
-</div>
-</div>
-<a id="ga021b198819062851ea5153464c57c39f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga021b198819062851ea5153464c57c39f">&#9670;&nbsp;</a></span>Reset()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void otbr::Ncp::Controller::Reset </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>This method reest the Ncp <a class="el" href="../../da/d6a/classotbr_1_1Ncp_1_1Controller.html">Controller</a>. </p>
-
-<p>Implemented in <a class="el" href="../../db/d17/classotbr_1_1Ncp_1_1ControllerOpenThread.html#a5b448faef8d2aac3fb29ad11e66959d2">otbr::Ncp::ControllerOpenThread</a>.</p>
 
 </div>
 </div>

@@ -46,6 +46,5 @@ var searchData=
   ['destroy_97',['Destroy',['../db/dae/group__border-router-ncp.html#ga8c3223f6b1b7ac0f5f7e1ed037576206',1,'otbr::Ncp::Controller::Destroy()'],['../da/ddc/classotbr_1_1Mdns_1_1Publisher.html#a764c8e33ecdf355a4eaf60292e9484c2',1,'otbr::Mdns::Publisher::Destroy()']]],
   ['diag2jsonstring_98',['Diag2JsonString',['../d0/d6c/namespaceotbr_1_1rest_1_1Json.html#a1d5fb81fc1a65c3d90406d6e1e9c5f35',1,'otbr::rest::Json']]],
   ['diaginfo_99',['DiagInfo',['../da/dfd/structotbr_1_1rest_1_1DiagInfo.html',1,'otbr::rest']]],
-  ['disable_100',['Disable',['../d8/d58/classotbr_1_1BackboneRouter_1_1NdProxyManager.html#ab6c1a0c0b562c1b9328d0a9a90695c7f',1,'otbr::BackboneRouter::NdProxyManager']]],
-  ['dumpdbusmessage_101',['DumpDBusMessage',['../df/de9/namespaceotbr_1_1DBus.html#ae1ff1319b519ce23b219248e1b1e57f0',1,'otbr::DBus']]]
+  ['dumpdbusmessage_100',['DumpDBusMessage',['../df/de9/namespaceotbr_1_1DBus.html#ae1ff1319b519ce23b219248e1b1e57f0',1,'otbr::DBus']]]
 ];

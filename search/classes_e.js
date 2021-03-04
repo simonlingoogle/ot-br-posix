@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ubusserver_694',['UbusServer',['../d9/dea/classotbr_1_1ubus_1_1UbusServer.html',1,'otbr::ubus']]]
+  ['ubusserver_687',['UbusServer',['../d9/dea/classotbr_1_1ubus_1_1UbusServer.html',1,'otbr::ubus']]]
 ];
