@@ -50,11 +50,11 @@ namespace Mdns {
  * This class implements MDNS service with avahi.
  *
  */
-class PublisherMDnsSd : public Publisher
+class MdnsServiceMDnsSd : public MdnsService
 {
 public:
     /**
-     * The constructor to initialize a Publisher.
+     * The constructor to initialize a MdnsService.
      *
      * @param[in]   aProtocol           The protocol used for publishing. IPv4, IPv6 or both.
      * @param[in]   aDomain             The domain of the host. nullptr to use default.
@@ -62,9 +62,9 @@ public:
      * @param[in]   aContext            A pointer to application-specific context.
      *
      */
-    PublisherMDnsSd(int aProtocol, const char *aDomain, StateHandler aHandler, void *aContext);
+    MdnsServiceMDnsSd(int aProtocol, const char *aDomain, StateHandler aHandler, void *aContext);
 
-    ~PublisherMDnsSd(void) override;
+    ~MdnsServiceMDnsSd(void) override;
 
     /**
      * This method publishes or updates a service.

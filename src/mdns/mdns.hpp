@@ -57,7 +57,7 @@ namespace Mdns {
  * This interface defines the functionality of MDNS service.
  *
  */
-class Publisher
+class MdnsService
 {
 public:
     /**
@@ -271,7 +271,7 @@ public:
                              int &    aMaxFd,
                              timeval &aTimeout) = 0;
 
-    virtual ~Publisher(void) {}
+    virtual ~MdnsService(void) {}
 
     /**
      * This function creates a MDNS publisher.
@@ -284,15 +284,15 @@ public:
      * @returns A pointer to the newly created MDNS publisher.
      *
      */
-    static Publisher *Create(int aProtocol, const char *aDomain, StateHandler aHandler, void *aContext);
+    static MdnsService *Create(int aProtocol, const char *aDomain, StateHandler aHandler, void *aContext);
 
     /**
      * This function destroys the MDNS publisher.
      *
-     * @param[in]   aPublisher          A pointer to the publisher.
+     * @param[in]   aMdnsService          A pointer to the publisher.
      *
      */
-    static void Destroy(Publisher *aPublisher);
+    static void Destroy(MdnsService *aMdnsService);
 
     /**
      * This function decides if two service types (names) are equal.

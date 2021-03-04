@@ -84,12 +84,12 @@ enum
 BorderAgent::BorderAgent(Ncp::Controller *aNcp)
     : mNcp(aNcp)
 #if OTBR_ENABLE_MDNS_AVAHI || OTBR_ENABLE_MDNS_MDNSSD || OTBR_ENABLE_MDNS_MOJO
-    , mPublisher(Mdns::Publisher::Create(AF_UNSPEC, /* aDomain */ nullptr, HandleMdnsState, this))
+    , mMdnsService(Mdns::MdnsService::Create(AF_UNSPEC, /* aDomain */ nullptr, HandleMdnsState, this))
 #if OTBR_ENABLE_SRP_ADVERTISING_PROXY
-    , mAdvertisingProxy(*reinterpret_cast<Ncp::ControllerOpenThread *>(aNcp), *mPublisher)
+    , mAdvertisingProxy(*reinterpret_cast<Ncp::ControllerOpenThread *>(aNcp), *mMdnsService)
 #endif
 #else
-    , mPublisher(nullptr)
+    , mMdnsService(nullptr)
 #endif
 #if OTBR_ENABLE_BACKBONE_ROUTER
     , mBackboneAgent(*reinterpret_cast<Ncp::ControllerOpenThread *>(aNcp))
@@ -168,18 +168,18 @@ BorderAgent::~BorderAgent(void)
 {
     Stop();
 
-    if (mPublisher != nullptr)
+    if (mMdnsService != nullptr)
     {
-        delete mPublisher;
-        mPublisher = nullptr;
+        delete mMdnsService;
+        mMdnsService = nullptr;
     }
 }
 
-void BorderAgent::HandleMdnsState(Mdns::Publisher::State aState)
+void BorderAgent::HandleMdnsState(Mdns::MdnsService::State aState)
 {
     switch (aState)
     {
-    case Mdns::Publisher::State::kReady:
+    case Mdns::MdnsService::State::kReady:
         PublishService();
         break;
     default:
@@ -198,9 +198,9 @@ void BorderAgent::UpdateFdSet(fd_set & aReadFdSet,
     mBackboneAgent.UpdateFdSet(aReadFdSet, aWriteFdSet, aErrorFdSet, aMaxFd, aTimeout);
 #endif
 
-    if (mPublisher != nullptr)
+    if (mMdnsService != nullptr)
     {
-        mPublisher->UpdateFdSet(aReadFdSet, aWriteFdSet, aErrorFdSet, aMaxFd, aTimeout);
+        mMdnsService->UpdateFdSet(aReadFdSet, aWriteFdSet, aErrorFdSet, aMaxFd, aTimeout);
     }
 }
 
@@ -209,9 +209,9 @@ void BorderAgent::Process(const fd_set &aReadFdSet, const fd_set &aWriteFdSet, c
 #if OTBR_ENABLE_BACKBONE_ROUTER
     mBackboneAgent.Process(aReadFdSet, aWriteFdSet, aErrorFdSet);
 #endif
-    if (mPublisher != nullptr)
+    if (mMdnsService != nullptr)
     {
-        mPublisher->Process(aReadFdSet, aWriteFdSet, aErrorFdSet);
+        mMdnsService->Process(aReadFdSet, aWriteFdSet, aErrorFdSet);
     }
 }
 
@@ -236,16 +236,16 @@ void BorderAgent::PublishService(void)
     assert(mExtAddrInitialized);
     assert(mThreadVersion != 0);
 
-    const char *             versionString = ThreadVersionToString(mThreadVersion);
-    Mdns::Publisher::TxtList txtList{{"nn", mNetworkName},
-                                     {"xp", mExtPanId, sizeof(mExtPanId)},
-                                     {"tv", versionString},
-                                     // "dd" represents for device discriminator which
-                                     // should always be the IEEE 802.15.4 extended address.
-                                     {"dd", mExtAddr, sizeof(mExtAddr)}};
+    const char *               versionString = ThreadVersionToString(mThreadVersion);
+    Mdns::MdnsService::TxtList txtList{{"nn", mNetworkName},
+                                       {"xp", mExtPanId, sizeof(mExtPanId)},
+                                       {"tv", versionString},
+                                       // "dd" represents for device discriminator which
+                                       // should always be the IEEE 802.15.4 extended address.
+                                       {"dd", mExtAddr, sizeof(mExtAddr)}};
 
-    mPublisher->PublishService(/* aHostName */ nullptr, kBorderAgentUdpPort, mNetworkName, kBorderAgentServiceType,
-                               txtList);
+    mMdnsService->PublishService(/* aHostName */ nullptr, kBorderAgentUdpPort, mNetworkName, kBorderAgentServiceType,
+                                 txtList);
 }
 
 void BorderAgent::StartPublishService(void)
@@ -255,13 +255,13 @@ void BorderAgent::StartPublishService(void)
     VerifyOrExit(mExtAddrInitialized);
     VerifyOrExit(mThreadVersion != 0);
 
-    if (mPublisher->IsStarted())
+    if (mMdnsService->IsStarted())
     {
         PublishService();
     }
     else
     {
-        mPublisher->Start();
+        mMdnsService->Start();
     }
 
 exit:
@@ -270,11 +270,11 @@ exit:
 
 void BorderAgent::StopPublishService(void)
 {
-    VerifyOrExit(mPublisher != nullptr);
+    VerifyOrExit(mMdnsService != nullptr);
 
-    if (mPublisher->IsStarted())
+    if (mMdnsService->IsStarted())
     {
-        mPublisher->Stop();
+        mMdnsService->Stop();
     }
 
 exit:
@@ -288,8 +288,8 @@ void BorderAgent::SetNetworkName(const char *aNetworkName)
 #if OTBR_ENABLE_MDNS_AVAHI || OTBR_ENABLE_MDNS_MDNSSD || OTBR_ENABLE_MDNS_MOJO
     if (mThreadStarted)
     {
-        // Restart publisher to publish new service name.
-        mPublisher->Stop();
+        // Restart MdnsService to publish new service name.
+        mMdnsService->Stop();
         StartPublishService();
     }
 #endif

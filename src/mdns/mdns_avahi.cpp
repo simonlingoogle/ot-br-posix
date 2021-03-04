@@ -307,7 +307,7 @@ void Poller::Process(const fd_set &aReadFdSet, const fd_set &aWriteFdSet, const 
     }
 }
 
-PublisherAvahi::PublisherAvahi(int aProtocol, const char *aDomain, StateHandler aHandler, void *aContext)
+MdnsServiceAvahi::MdnsServiceAvahi(int aProtocol, const char *aDomain, StateHandler aHandler, void *aContext)
     : mClient(nullptr)
     , mProtocol(aProtocol == AF_INET6 ? AVAHI_PROTO_INET6
                                       : aProtocol == AF_INET ? AVAHI_PROTO_INET : AVAHI_PROTO_UNSPEC)
@@ -318,11 +318,11 @@ PublisherAvahi::PublisherAvahi(int aProtocol, const char *aDomain, StateHandler 
 {
 }
 
-PublisherAvahi::~PublisherAvahi(void)
+MdnsServiceAvahi::~MdnsServiceAvahi(void)
 {
 }
 
-otbrError PublisherAvahi::Start(void)
+otbrError MdnsServiceAvahi::Start(void)
 {
     otbrError error      = OTBR_ERROR_NONE;
     int       avahiError = 0;
@@ -338,12 +338,12 @@ otbrError PublisherAvahi::Start(void)
     return error;
 }
 
-bool PublisherAvahi::IsStarted(void) const
+bool MdnsServiceAvahi::IsStarted(void) const
 {
     return mClient != nullptr;
 }
 
-void PublisherAvahi::Stop(void)
+void MdnsServiceAvahi::Stop(void)
 {
     FreeAllGroups();
 
@@ -356,17 +356,17 @@ void PublisherAvahi::Stop(void)
     }
 }
 
-void PublisherAvahi::HandleClientState(AvahiClient *aClient, AvahiClientState aState, void *aContext)
+void MdnsServiceAvahi::HandleClientState(AvahiClient *aClient, AvahiClientState aState, void *aContext)
 {
-    static_cast<PublisherAvahi *>(aContext)->HandleClientState(aClient, aState);
+    static_cast<MdnsServiceAvahi *>(aContext)->HandleClientState(aClient, aState);
 }
 
-void PublisherAvahi::HandleGroupState(AvahiEntryGroup *aGroup, AvahiEntryGroupState aState, void *aContext)
+void MdnsServiceAvahi::HandleGroupState(AvahiEntryGroup *aGroup, AvahiEntryGroupState aState, void *aContext)
 {
-    static_cast<PublisherAvahi *>(aContext)->HandleGroupState(aGroup, aState);
+    static_cast<MdnsServiceAvahi *>(aContext)->HandleGroupState(aGroup, aState);
 }
 
-void PublisherAvahi::HandleGroupState(AvahiEntryGroup *aGroup, AvahiEntryGroupState aState)
+void MdnsServiceAvahi::HandleGroupState(AvahiEntryGroup *aGroup, AvahiEntryGroupState aState)
 {
     otbrLog(OTBR_LOG_INFO, "Avahi group change to state %d.", aState);
 
@@ -402,7 +402,7 @@ void PublisherAvahi::HandleGroupState(AvahiEntryGroup *aGroup, AvahiEntryGroupSt
     }
 }
 
-void PublisherAvahi::CallHostOrServiceCallback(AvahiEntryGroup *aGroup, otbrError aError) const
+void MdnsServiceAvahi::CallHostOrServiceCallback(AvahiEntryGroup *aGroup, otbrError aError) const
 {
     if (mHostHandler != nullptr)
     {
@@ -427,7 +427,7 @@ void PublisherAvahi::CallHostOrServiceCallback(AvahiEntryGroup *aGroup, otbrErro
     }
 }
 
-PublisherAvahi::Hosts::iterator PublisherAvahi::FindHost(const char *aHostName)
+MdnsServiceAvahi::Hosts::iterator MdnsServiceAvahi::FindHost(const char *aHostName)
 {
     assert(aHostName != nullptr);
 
@@ -435,7 +435,7 @@ PublisherAvahi::Hosts::iterator PublisherAvahi::FindHost(const char *aHostName)
                         [aHostName](const Host &aHost) { return aHost.mHostName == aHostName; });
 }
 
-otbrError PublisherAvahi::CreateHost(AvahiClient &aClient, const char *aHostName, Hosts::iterator &aOutHostIt)
+otbrError MdnsServiceAvahi::CreateHost(AvahiClient &aClient, const char *aHostName, Hosts::iterator &aOutHostIt)
 {
     assert(aHostName != nullptr);
 
@@ -452,7 +452,7 @@ exit:
     return error;
 }
 
-PublisherAvahi::Services::iterator PublisherAvahi::FindService(const char *aName, const char *aType)
+MdnsServiceAvahi::Services::iterator MdnsServiceAvahi::FindService(const char *aName, const char *aType)
 {
     assert(aName != nullptr);
     assert(aType != nullptr);
@@ -462,10 +462,10 @@ PublisherAvahi::Services::iterator PublisherAvahi::FindService(const char *aName
     });
 }
 
-otbrError PublisherAvahi::CreateService(AvahiClient &       aClient,
-                                        const char *        aName,
-                                        const char *        aType,
-                                        Services::iterator &aOutServiceIt)
+otbrError MdnsServiceAvahi::CreateService(AvahiClient &       aClient,
+                                          const char *        aName,
+                                          const char *        aType,
+                                          Services::iterator &aOutServiceIt)
 {
     assert(aName != nullptr);
     assert(aType != nullptr);
@@ -484,7 +484,7 @@ exit:
     return error;
 }
 
-otbrError PublisherAvahi::CreateGroup(AvahiClient &aClient, AvahiEntryGroup *&aOutGroup)
+otbrError MdnsServiceAvahi::CreateGroup(AvahiClient &aClient, AvahiEntryGroup *&aOutGroup)
 {
     otbrError error = OTBR_ERROR_NONE;
 
@@ -503,7 +503,7 @@ exit:
     return error;
 }
 
-otbrError PublisherAvahi::ResetGroup(AvahiEntryGroup *aGroup)
+otbrError MdnsServiceAvahi::ResetGroup(AvahiEntryGroup *aGroup)
 {
     assert(aGroup != nullptr);
 
@@ -519,7 +519,7 @@ otbrError PublisherAvahi::ResetGroup(AvahiEntryGroup *aGroup)
     return error;
 }
 
-otbrError PublisherAvahi::FreeGroup(AvahiEntryGroup *aGroup)
+otbrError MdnsServiceAvahi::FreeGroup(AvahiEntryGroup *aGroup)
 {
     assert(aGroup != nullptr);
 
@@ -535,7 +535,7 @@ otbrError PublisherAvahi::FreeGroup(AvahiEntryGroup *aGroup)
     return error;
 }
 
-void PublisherAvahi::FreeAllGroups(void)
+void MdnsServiceAvahi::FreeAllGroups(void)
 {
     for (Service &service : mServices)
     {
@@ -552,7 +552,7 @@ void PublisherAvahi::FreeAllGroups(void)
     mHosts.clear();
 }
 
-void PublisherAvahi::HandleClientState(AvahiClient *aClient, AvahiClientState aState)
+void MdnsServiceAvahi::HandleClientState(AvahiClient *aClient, AvahiClientState aState)
 {
     otbrLog(OTBR_LOG_INFO, "Avahi client state changed to %d.", aState);
     switch (aState)
@@ -598,25 +598,25 @@ void PublisherAvahi::HandleClientState(AvahiClient *aClient, AvahiClientState aS
     }
 }
 
-void PublisherAvahi::UpdateFdSet(fd_set & aReadFdSet,
-                                 fd_set & aWriteFdSet,
-                                 fd_set & aErrorFdSet,
-                                 int &    aMaxFd,
-                                 timeval &aTimeout)
+void MdnsServiceAvahi::UpdateFdSet(fd_set & aReadFdSet,
+                                   fd_set & aWriteFdSet,
+                                   fd_set & aErrorFdSet,
+                                   int &    aMaxFd,
+                                   timeval &aTimeout)
 {
     mPoller.UpdateFdSet(aReadFdSet, aWriteFdSet, aErrorFdSet, aMaxFd, aTimeout);
 }
 
-void PublisherAvahi::Process(const fd_set &aReadFdSet, const fd_set &aWriteFdSet, const fd_set &aErrorFdSet)
+void MdnsServiceAvahi::Process(const fd_set &aReadFdSet, const fd_set &aWriteFdSet, const fd_set &aErrorFdSet)
 {
     mPoller.Process(aReadFdSet, aWriteFdSet, aErrorFdSet);
 }
 
-otbrError PublisherAvahi::PublishService(const char *   aHostName,
-                                         uint16_t       aPort,
-                                         const char *   aName,
-                                         const char *   aType,
-                                         const TxtList &aTxtList)
+otbrError MdnsServiceAvahi::PublishService(const char *   aHostName,
+                                           uint16_t       aPort,
+                                           const char *   aName,
+                                           const char *   aType,
+                                           const TxtList &aTxtList)
 {
     otbrError          error        = OTBR_ERROR_NONE;
     int                avahiError   = 0;
@@ -721,7 +721,7 @@ exit:
     return error;
 }
 
-otbrError PublisherAvahi::UnpublishService(const char *aName, const char *aType)
+otbrError MdnsServiceAvahi::UnpublishService(const char *aName, const char *aType)
 {
     otbrError          error = OTBR_ERROR_NONE;
     Services::iterator serviceIt;
@@ -740,7 +740,7 @@ exit:
     return error;
 }
 
-otbrError PublisherAvahi::PublishHost(const char *aName, const uint8_t *aAddress, uint8_t aAddressLength)
+otbrError MdnsServiceAvahi::PublishHost(const char *aName, const uint8_t *aAddress, uint8_t aAddressLength)
 {
     otbrError       error      = OTBR_ERROR_NONE;
     int             avahiError = 0;
@@ -810,7 +810,7 @@ exit:
     return error;
 }
 
-otbrError PublisherAvahi::UnpublishHost(const char *aName)
+otbrError MdnsServiceAvahi::UnpublishHost(const char *aName)
 {
     otbrError       error = OTBR_ERROR_NONE;
     Hosts::iterator hostIt;
@@ -828,7 +828,7 @@ exit:
     return error;
 }
 
-std::string PublisherAvahi::MakeFullName(const char *aName)
+std::string MdnsServiceAvahi::MakeFullName(const char *aName)
 {
     assert(aName != nullptr);
 
@@ -840,14 +840,14 @@ std::string PublisherAvahi::MakeFullName(const char *aName)
     return fullHostName;
 }
 
-Publisher *Publisher::Create(int aFamily, const char *aDomain, StateHandler aHandler, void *aContext)
+MdnsService *MdnsService::Create(int aFamily, const char *aDomain, StateHandler aHandler, void *aContext)
 {
-    return new PublisherAvahi(aFamily, aDomain, aHandler, aContext);
+    return new MdnsServiceAvahi(aFamily, aDomain, aHandler, aContext);
 }
 
-void Publisher::Destroy(Publisher *aPublisher)
+void MdnsService::Destroy(MdnsService *aMdnsService)
 {
-    delete static_cast<PublisherAvahi *>(aPublisher);
+    delete static_cast<MdnsServiceAvahi *>(aMdnsService);
 }
 
 } // namespace Mdns
