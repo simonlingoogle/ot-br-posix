@@ -105,6 +105,11 @@ private:
         int         mSubscriptionCount;
     };
 
+    struct HostSubscription
+    {
+
+    };
+
     typedef std::vector<ServiceSubscription> ServiceSubscriptionList;
 
     void OnServiceDiscovered(const std::string &aType, const Mdns::Publisher::DiscoveredInstanceInfo &aInstanceInfo);

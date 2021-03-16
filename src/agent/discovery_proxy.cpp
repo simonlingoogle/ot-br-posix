@@ -135,7 +135,7 @@ void DiscoveryProxy::OnDiscoveryProxyUnsubscribe(void *aContext, const char *aFu
 void DiscoveryProxy::OnDiscoveryProxyUnsubscribe(const char *aFullName)
 {
     std::string                       fullName(aFullName);
-    std::string                       instanceName, serviceName, domain;
+    std::string                       instanceName, serviceName, hostName, domain;
     otbrError                         error = OTBR_ERROR_NONE;
     ServiceSubscriptionList::iterator it;
     DnsNameType                       nameType = GetDnsNameType(fullName);
@@ -149,6 +149,9 @@ void DiscoveryProxy::OnDiscoveryProxyUnsubscribe(const char *aFullName)
         break;
     case kDnsNameTypeInstance:
         SuccessOrExit(error = SplitFullServiceInstanceName(fullName, instanceName, serviceName, domain));
+        break;
+    case kDnsNameTypeHost:
+        SuccessOrExit(error = SplitFullHostName(fullName, hostName, domain));
         break;
     default:
         ExitNow(error = OTBR_ERROR_NOT_IMPLEMENTED);
