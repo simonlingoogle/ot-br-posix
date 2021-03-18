@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">openthread-br
-   &#160;<span id="projectnumber">0.2.0-9e91ef6</span>
+   &#160;<span id="projectnumber">0.3.0-ab72f31</span>
    </div>
   </td>
  </tr>
@@ -127,10 +127,10 @@ $(function() {
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    {</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keyword">typedef</span> std::vector&lt;std::pair&lt;std::string, std::string&gt;&gt; ServiceNameList;</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keyword">const</span> otSrpServerHost *mHost = <span class="keyword">nullptr</span>; <span class="comment">// The SRP host which being published.</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        std::string            mHostName;       <span class="comment">// The host name.</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        ServiceNameList        mServiceNames;   <span class="comment">// The list of service instance and name pair.</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        uint32_t               mCount = 0;      <span class="comment">// The number of outstanding updates.</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keyword">const</span> otSrpServerHost *mHost = <span class="keyword">nullptr</span>;    <span class="comment">// The SRP host which being published.</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        std::string            mHostName;          <span class="comment">// The host name.</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        ServiceNameList        mServiceNames;      <span class="comment">// The list of service instance and name pair.</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        uint32_t               mCallbackCount = 0; <span class="comment">// The number of callbacks which we are waiting for.</span></div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    };</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> AdvertisingHandler(<span class="keyword">const</span> otSrpServerHost *aHost, uint32_t aTimeout, <span class="keywordtype">void</span> *aContext);</div>

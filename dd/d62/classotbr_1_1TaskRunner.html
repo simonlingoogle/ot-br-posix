@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">openthread-br
-   &#160;<span id="projectnumber">0.2.0-9e91ef6</span>
+   &#160;<span id="projectnumber">0.3.0-ab72f31</span>
    </div>
   </td>
  </tr>
@@ -67,6 +67,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="../../d9/d2d/classotbr_1_1TaskRunner-members.html">List of all members</a>  </div>
@@ -76,6 +77,15 @@ $(function() {
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="../../df/db8/task__runner_8hpp_source.html">src/common/task_runner.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for otbr::TaskRunner:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="../../dd/d62/classotbr_1_1TaskRunner.png" usemap="#otbr::TaskRunner_map" alt=""/>
+  <map id="otbr::TaskRunner_map" name="otbr::TaskRunner_map">
+<area href="../../db/d03/classotbr_1_1MainloopProcessor.html" alt="otbr::MainloopProcessor" shape="rect" coords="0,0,150,24"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
@@ -87,17 +97,19 @@ Public Types</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a87019d8e1f65bd804c4ff27ad5a4e301"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d62/classotbr_1_1TaskRunner.html#a87019d8e1f65bd804c4ff27ad5a4e301">TaskRunner</a> (void)</td></tr>
 <tr class="separator:a87019d8e1f65bd804c4ff27ad5a4e301"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4675a80fe0dafbd46016ab11cfd18c4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d62/classotbr_1_1TaskRunner.html#aa4675a80fe0dafbd46016ab11cfd18c4">~TaskRunner</a> (void)</td></tr>
-<tr class="separator:aa4675a80fe0dafbd46016ab11cfd18c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a334be369597e2a1126efb60210fbfd31"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d62/classotbr_1_1TaskRunner.html#a334be369597e2a1126efb60210fbfd31">Post</a> (const <a class="el" href="../../dd/d62/classotbr_1_1TaskRunner.html#a470cbb92816291e11e4b902edc28baef">Task</a>&lt; void &gt; &amp;aTask)</td></tr>
-<tr class="separator:a334be369597e2a1126efb60210fbfd31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dedd7137f7bcb25cd8b2ae3dce1fad2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d62/classotbr_1_1TaskRunner.html#a7dedd7137f7bcb25cd8b2ae3dce1fad2">~TaskRunner</a> (void) override</td></tr>
+<tr class="separator:a7dedd7137f7bcb25cd8b2ae3dce1fad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa26145e87b20bd4e565ca4c81e7e387d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d62/classotbr_1_1TaskRunner.html#aa26145e87b20bd4e565ca4c81e7e387d">Post</a> (const <a class="el" href="../../dd/d62/classotbr_1_1TaskRunner.html#a470cbb92816291e11e4b902edc28baef">Task</a>&lt; void &gt; aTask)</td></tr>
+<tr class="separator:aa26145e87b20bd4e565ca4c81e7e387d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1ac696bf266114b2231b6a851d1d809"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d62/classotbr_1_1TaskRunner.html#aa1ac696bf266114b2231b6a851d1d809">Post</a> (Milliseconds aDelay, const <a class="el" href="../../dd/d62/classotbr_1_1TaskRunner.html#a470cbb92816291e11e4b902edc28baef">Task</a>&lt; void &gt; aTask)</td></tr>
+<tr class="separator:aa1ac696bf266114b2231b6a851d1d809"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a84c4ad8ba3c651236047b111e3e7ecb9"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:a84c4ad8ba3c651236047b111e3e7ecb9"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../dd/d62/classotbr_1_1TaskRunner.html#a84c4ad8ba3c651236047b111e3e7ecb9">PostAndWait</a> (const <a class="el" href="../../dd/d62/classotbr_1_1TaskRunner.html#a470cbb92816291e11e4b902edc28baef">Task</a>&lt; T &gt; &amp;aTask)</td></tr>
 <tr class="separator:a84c4ad8ba3c651236047b111e3e7ecb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3cbdca36e9efedff6ce60c9bc7fb1ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d62/classotbr_1_1TaskRunner.html#ae3cbdca36e9efedff6ce60c9bc7fb1ec">UpdateFdSet</a> (otSysMainloopContext &amp;aMainloop)</td></tr>
-<tr class="separator:ae3cbdca36e9efedff6ce60c9bc7fb1ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f68ed3ffd04216490d07559177d38d0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d62/classotbr_1_1TaskRunner.html#a7f68ed3ffd04216490d07559177d38d0">Process</a> (const otSysMainloopContext &amp;aMainloop)</td></tr>
-<tr class="separator:a7f68ed3ffd04216490d07559177d38d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55eda1e0cf2f881d6575d83078ceea9e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d62/classotbr_1_1TaskRunner.html#a55eda1e0cf2f881d6575d83078ceea9e">Update</a> (<a class="el" href="../../d0/dfd/mainloop_8hpp.html#af517b768b4ea7748a2ad90dee62efc60">MainloopContext</a> &amp;aMainloop) override</td></tr>
+<tr class="separator:a55eda1e0cf2f881d6575d83078ceea9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8112755a69ec1757a3c39f7a842bab3b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d62/classotbr_1_1TaskRunner.html#a8112755a69ec1757a3c39f7a842bab3b">Process</a> (const <a class="el" href="../../d0/dfd/mainloop_8hpp.html#af517b768b4ea7748a2ad90dee62efc60">MainloopContext</a> &amp;aMainloop) override</td></tr>
+<tr class="separator:a8112755a69ec1757a3c39f7a842bab3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class implements the Task Runner that executes tasks on the mainloop. </p>
@@ -139,11 +151,14 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="aa4675a80fe0dafbd46016ab11cfd18c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa4675a80fe0dafbd46016ab11cfd18c4">&#9670;&nbsp;</a></span>~TaskRunner()</h2>
+<a id="a7dedd7137f7bcb25cd8b2ae3dce1fad2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7dedd7137f7bcb25cd8b2ae3dce1fad2">&#9670;&nbsp;</a></span>~TaskRunner()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">otbr::TaskRunner::~TaskRunner </td>
@@ -153,14 +168,19 @@ template&lt;class T &gt; </div>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <p>This destructor destroys the Task Runner instance. </p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a334be369597e2a1126efb60210fbfd31"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a334be369597e2a1126efb60210fbfd31">&#9670;&nbsp;</a></span>Post()</h2>
+<a id="aa26145e87b20bd4e565ca4c81e7e387d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa26145e87b20bd4e565ca4c81e7e387d">&#9670;&nbsp;</a></span>Post() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -168,16 +188,53 @@ template&lt;class T &gt; </div>
         <tr>
           <td class="memname">void otbr::TaskRunner::Post </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../dd/d62/classotbr_1_1TaskRunner.html#a470cbb92816291e11e4b902edc28baef">Task</a>&lt; void &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../dd/d62/classotbr_1_1TaskRunner.html#a470cbb92816291e11e4b902edc28baef">Task</a>&lt; void &gt;&#160;</td>
           <td class="paramname"><em>aTask</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This method posts a task to the task runner.</p>
+<p>This method posts a task to the task runner and returns immediately.</p>
 <p>Tasks are executed sequentially and follow the First-Come-First-Serve rule. It is safe to call this method in different threads concurrently.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aTask</td><td>The task to be executed. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa1ac696bf266114b2231b6a851d1d809"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1ac696bf266114b2231b6a851d1d809">&#9670;&nbsp;</a></span>Post() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void otbr::TaskRunner::Post </td>
+          <td>(</td>
+          <td class="paramtype">Milliseconds&#160;</td>
+          <td class="paramname"><em>aDelay</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="../../dd/d62/classotbr_1_1TaskRunner.html#a470cbb92816291e11e4b902edc28baef">Task</a>&lt; void &gt;&#160;</td>
+          <td class="paramname"><em>aTask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This method posts a task to the task runner and returns immediately.</p>
+<p>The task will be executed on the mainloop after <code>aDelay</code> milliseconds from now.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">aDelay</td><td>The delay before executing the task (in milliseconds). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">aTask</td><td>The task to be executed. </td></tr>
   </table>
   </dd>
@@ -216,55 +273,73 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="a7f68ed3ffd04216490d07559177d38d0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f68ed3ffd04216490d07559177d38d0">&#9670;&nbsp;</a></span>Process()</h2>
+<a id="a8112755a69ec1757a3c39f7a842bab3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8112755a69ec1757a3c39f7a842bab3b">&#9670;&nbsp;</a></span>Process()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void otbr::TaskRunner::Process </td>
           <td>(</td>
-          <td class="paramtype">const otSysMainloopContext &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d0/dfd/mainloop_8hpp.html#af517b768b4ea7748a2ad90dee62efc60">MainloopContext</a> &amp;&#160;</td>
           <td class="paramname"><em>aMainloop</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p>This method processes events.</p>
-<p>This method should only be called on the mainloop thread.</p>
+<p>This method processes mainloop events.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aMainloop</td><td>A reference to OpenThread mainloop context. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">aMainloop</td><td>A reference to the mainloop context. </td></tr>
   </table>
   </dd>
 </dl>
 
+<p>Implements <a class="el" href="../../db/d03/classotbr_1_1MainloopProcessor.html#a846ebf57ac6735c885bb76a9d07ff3ee">otbr::MainloopProcessor</a>.</p>
+
 </div>
 </div>
-<a id="ae3cbdca36e9efedff6ce60c9bc7fb1ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3cbdca36e9efedff6ce60c9bc7fb1ec">&#9670;&nbsp;</a></span>UpdateFdSet()</h2>
+<a id="a55eda1e0cf2f881d6575d83078ceea9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55eda1e0cf2f881d6575d83078ceea9e">&#9670;&nbsp;</a></span>Update()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void otbr::TaskRunner::UpdateFdSet </td>
+          <td class="memname">void otbr::TaskRunner::Update </td>
           <td>(</td>
-          <td class="paramtype">otSysMainloopContext &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d0/dfd/mainloop_8hpp.html#af517b768b4ea7748a2ad90dee62efc60">MainloopContext</a> &amp;&#160;</td>
           <td class="paramname"><em>aMainloop</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p>This method updates the file descriptor and sets timeout for the mainloop.</p>
-<p>This method should only be called on the mainloop thread.</p>
+<p>This method updates the mainloop context.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">aMainloop</td><td>A reference to OpenThread mainloop context. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">aMainloop</td><td>A reference to the mainloop to be updated. </td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Implements <a class="el" href="../../db/d03/classotbr_1_1MainloopProcessor.html#a537ae40626823cf2a044d4764dcc0c0d">otbr::MainloopProcessor</a>.</p>
 
 </div>
 </div>

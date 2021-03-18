@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">openthread-br
-   &#160;<span id="projectnumber">0.2.0-9e91ef6</span>
+   &#160;<span id="projectnumber">0.3.0-ab72f31</span>
    </div>
   </td>
  </tr>
@@ -103,31 +103,42 @@ $(function() {
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../db/d16/config_8h.html">openthread-br/config.h</a>&quot;</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &lt;chrono&gt;</span></div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#include &lt;sys/time.h&gt;</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">namespace </span>otbr {</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#include &lt;sys/time.h&gt;</span></div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="../../de/d99/time_8hpp.html#aea8ece4904a48bc9b96da44cbc51b5b1">   53</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code" href="../../de/d99/time_8hpp.html#aea8ece4904a48bc9b96da44cbc51b5b1">GetTimestamp</a>(<span class="keyword">const</span> timeval &amp;aTime)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">namespace </span>otbr {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">using</span> Seconds      = std::chrono::seconds;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">using</span> Milliseconds = std::chrono::milliseconds;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">using</span> Microseconds = std::chrono::microseconds;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">using</span> Clock        = std::chrono::steady_clock;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">using</span> Timepoint    = Clock::time_point;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> D&gt; D FromTimeval(<span class="keyword">const</span> timeval &amp;aTime)</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;{</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">long</span><span class="keyword">&gt;</span>(aTime.tv_sec * 1000 + aTime.tv_usec / 1000);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="../../de/d99/time_8hpp.html#a6aae84ad211a34cbb6c626dc9fd54455">   64</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <a class="code" href="../../de/d99/time_8hpp.html#a6aae84ad211a34cbb6c626dc9fd54455">GetNow</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;{</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    timeval now;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">return</span> std::chrono::duration_cast&lt;D&gt;(Microseconds{aTime.tv_usec}) +</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;           std::chrono::duration_cast&lt;D&gt;(Seconds{aTime.tv_sec});</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> D&gt; timeval ToTimeval(<span class="keyword">const</span> D &amp;aDuration)</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;{</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    timeval      ret;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span> kMicrosecondsPeriod = 1000000;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">auto</span>         microseconds        = std::chrono::duration_cast&lt;Microseconds&gt;(aDuration).count();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    ret.tv_sec  = microseconds / kMicrosecondsPeriod;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    ret.tv_usec = microseconds % kMicrosecondsPeriod;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    gettimeofday(&amp;now, <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">long</span><span class="keyword">&gt;</span>(now.tv_sec * 1000 + now.tv_usec / 1000);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;}</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;} <span class="comment">// namespace otbr</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#endif // OTBR_COMMON_TIME_HPP_</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">return</span> ret;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;} <span class="comment">// namespace otbr</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">#endif // OTBR_COMMON_TIME_HPP_</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="atime_8hpp_html_a6aae84ad211a34cbb6c626dc9fd54455"><div class="ttname"><a href="../../de/d99/time_8hpp.html#a6aae84ad211a34cbb6c626dc9fd54455">otbr::GetNow</a></div><div class="ttdeci">unsigned long GetNow(void)</div><div class="ttdef"><b>Definition:</b> time.hpp:64</div></div>
-<div class="ttc" id="atime_8hpp_html_aea8ece4904a48bc9b96da44cbc51b5b1"><div class="ttname"><a href="../../de/d99/time_8hpp.html#aea8ece4904a48bc9b96da44cbc51b5b1">otbr::GetTimestamp</a></div><div class="ttdeci">unsigned long GetTimestamp(const timeval &amp;aTime)</div><div class="ttdef"><b>Definition:</b> time.hpp:53</div></div>
 <div class="ttc" id="aconfig_8h_html"><div class="ttname"><a href="../../db/d16/config_8h.html">config.h</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

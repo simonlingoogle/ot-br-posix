@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">openthread-br
-   &#160;<span id="projectnumber">0.2.0-9e91ef6</span>
+   &#160;<span id="projectnumber">0.3.0-ab72f31</span>
    </div>
   </td>
  </tr>
@@ -110,10 +110,6 @@ Enumerations</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:gae3b8029c55774634c21363cd2e7b051e"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../dc/d53/common_2types_8hpp.html#a9addd74a14dca1dab1b3e7a8205455aa">otbrError</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/dae/group__border-router-ncp.html#gae3b8029c55774634c21363cd2e7b051e">otbr::Ncp::Controller::Init</a> (void)=0</td></tr>
 <tr class="separator:gae3b8029c55774634c21363cd2e7b051e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa6e411ecc13d0c084d13557975b1a7e0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/dae/group__border-router-ncp.html#gaa6e411ecc13d0c084d13557975b1a7e0">otbr::Ncp::Controller::UpdateFdSet</a> (otSysMainloopContext &amp;aMainloop)=0</td></tr>
-<tr class="separator:gaa6e411ecc13d0c084d13557975b1a7e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae3f89e92e7e2a33f3c7709dfb3056340"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/dae/group__border-router-ncp.html#gae3f89e92e7e2a33f3c7709dfb3056340">otbr::Ncp::Controller::Process</a> (const otSysMainloopContext &amp;aMainloop)=0</td></tr>
-<tr class="separator:gae3f89e92e7e2a33f3c7709dfb3056340"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga782ea989840ead62a7f99822f5e6679a"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../dc/d53/common_2types_8hpp.html#a9addd74a14dca1dab1b3e7a8205455aa">otbrError</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/dae/group__border-router-ncp.html#ga782ea989840ead62a7f99822f5e6679a">otbr::Ncp::Controller::RequestEvent</a> (int aEvent)=0</td></tr>
 <tr class="separator:ga782ea989840ead62a7f99822f5e6679a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga9f7019d3b0be9d173e424bfe27c3efb1"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../da/d6a/classotbr_1_1Ncp_1_1Controller.html">Controller</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/dae/group__border-router-ncp.html#ga9f7019d3b0be9d173e424bfe27c3efb1">otbr::Ncp::Controller::Create</a> (const char *aInterfaceName, const char *aRadioUrl, const char *aBackboneInterfaceName=nullptr)</td></tr>
@@ -282,41 +278,6 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="gae3f89e92e7e2a33f3c7709dfb3056340"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gae3f89e92e7e2a33f3c7709dfb3056340">&#9670;&nbsp;</a></span>Process()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void otbr::Ncp::Controller::Process </td>
-          <td>(</td>
-          <td class="paramtype">const otSysMainloopContext &amp;&#160;</td>
-          <td class="paramname"><em>aMainloop</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>This method performs the Thread processing.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">aMainloop</td><td>A reference to OpenThread mainloop context. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Implemented in <a class="el" href="../../db/d17/classotbr_1_1Ncp_1_1ControllerOpenThread.html#a96cb36e3e8410a97047d8d6910e86ec9">otbr::Ncp::ControllerOpenThread</a>.</p>
-
-</div>
-</div>
 <a id="ga782ea989840ead62a7f99822f5e6679a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga782ea989840ead62a7f99822f5e6679a">&#9670;&nbsp;</a></span>RequestEvent()</h2>
 
@@ -356,41 +317,6 @@ Functions</h2></td></tr>
 </dl>
 
 <p>Implemented in <a class="el" href="../../db/d17/classotbr_1_1Ncp_1_1ControllerOpenThread.html#a8524d0ecd87b3e5c08882f84ecd823cc">otbr::Ncp::ControllerOpenThread</a>.</p>
-
-</div>
-</div>
-<a id="gaa6e411ecc13d0c084d13557975b1a7e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaa6e411ecc13d0c084d13557975b1a7e0">&#9670;&nbsp;</a></span>UpdateFdSet()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void otbr::Ncp::Controller::UpdateFdSet </td>
-          <td>(</td>
-          <td class="paramtype">otSysMainloopContext &amp;&#160;</td>
-          <td class="paramname"><em>aMainloop</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>This method updates the fd_set to poll.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">aMainloop</td><td>A reference to OpenThread mainloop context. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Implemented in <a class="el" href="../../db/d17/classotbr_1_1Ncp_1_1ControllerOpenThread.html#a92a465227d3a56c64eef89cef6eba8a7">otbr::Ncp::ControllerOpenThread</a>.</p>
 
 </div>
 </div>

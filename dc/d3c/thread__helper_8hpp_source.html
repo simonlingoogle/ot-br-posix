@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">openthread-br
-   &#160;<span id="projectnumber">0.2.0-9e91ef6</span>
+   &#160;<span id="projectnumber">0.3.0-ab72f31</span>
    </div>
   </td>
  </tr>
@@ -192,7 +192,7 @@ $(function() {
 <div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160; </div>
 <div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    std::vector&lt;DeviceRoleHandler&gt; mDeviceRoleHandlers;</div>
 <div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160; </div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    std::map&lt;uint16_t, std::chrono::steady_clock::time_point&gt; mUnsecurePortCloseTime;</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    std::map&lt;uint16_t, size_t&gt; mUnsecurePortRefCounter;</div>
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160; </div>
 <div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    ResultHandler mAttachHandler;</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    ResultHandler mJoinerHandler;</div>
@@ -218,7 +218,7 @@ $(function() {
 <div class="ttc" id="aclassotbr_1_1agent_1_1ThreadHelper_html_aac024301fc948bc1942788c2dff1517d"><div class="ttname"><a href="../../d4/d44/classotbr_1_1agent_1_1ThreadHelper.html#aac024301fc948bc1942788c2dff1517d">otbr::agent::ThreadHelper::Reset</a></div><div class="ttdeci">otError Reset(void)</div><div class="ttdef"><b>Definition:</b> thread_helper.cpp:295</div></div>
 <div class="ttc" id="aclassotbr_1_1agent_1_1ThreadHelper_html_af23ed2f42134e7082169258b52e8e782"><div class="ttname"><a href="../../d4/d44/classotbr_1_1agent_1_1ThreadHelper.html#af23ed2f42134e7082169258b52e8e782">otbr::agent::ThreadHelper::PermitUnsecureJoin</a></div><div class="ttdeci">otError PermitUnsecureJoin(uint16_t aPort, uint32_t aSeconds)</div></div>
 <div class="ttc" id="alogging_8hpp_html_a7b7dbf451e3c68eac8f0a7d09df427ef"><div class="ttname"><a href="../../d0/da9/logging_8hpp.html#a7b7dbf451e3c68eac8f0a7d09df427ef">otbrLog</a></div><div class="ttdeci">void otbrLog(int aLevel, const char *aFormat,...)</div><div class="ttdef"><b>Definition:</b> logging.cpp:62</div></div>
-<div class="ttc" id="aclassotbr_1_1Ncp_1_1ControllerOpenThread_html"><div class="ttname"><a href="../../db/d17/classotbr_1_1Ncp_1_1ControllerOpenThread.html">otbr::Ncp::ControllerOpenThread</a></div><div class="ttdef"><b>Definition:</b> ncp_openthread.hpp:55</div></div>
+<div class="ttc" id="aclassotbr_1_1Ncp_1_1ControllerOpenThread_html"><div class="ttname"><a href="../../db/d17/classotbr_1_1Ncp_1_1ControllerOpenThread.html">otbr::Ncp::ControllerOpenThread</a></div><div class="ttdef"><b>Definition:</b> ncp_openthread.hpp:56</div></div>
 <div class="ttc" id="aclassotbr_1_1agent_1_1ThreadHelper_html_a091901bf4e19a0a2ab3a93ac701102fa"><div class="ttname"><a href="../../d4/d44/classotbr_1_1agent_1_1ThreadHelper.html#a091901bf4e19a0a2ab3a93ac701102fa">otbr::agent::ThreadHelper::TryResumeNetwork</a></div><div class="ttdeci">otError TryResumeNetwork(void)</div><div class="ttdef"><b>Definition:</b> thread_helper.cpp:355</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
